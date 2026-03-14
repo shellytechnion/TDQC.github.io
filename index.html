@@ -325,7 +325,7 @@
 <div class="hero">
     <div class="container">
         <h1>Temporal Difference Calibration in Sequential Tasks: Application to Vision-Language-Action Models</h1>
-        <p class="authors">Anonymous Authors • ICML 2026 Submission</p>
+        <p class="authors">Shelly Francis-Meretzki, Mirco Mutti, Yaniv Romano, Aviv Tamar • ICML 2026 Submission</p>
         <div class="mt-4">
             <a href="#" class="btn-custom">READ PAPER</a>
             <a href="https://anonymous.4open.science/r/safe-vla-TDQC-DC5F" class="btn-custom">VIEW ON GITHUB</a>
@@ -349,9 +349,9 @@
                     lightweight probe on top of frozen Vision-Language-Action (VLA) models. By minimizing a
                     sequential Brier score whose risk minimizer is the policy's <em>value function</em>, TDQC
                     produces temporally consistent, well-calibrated success probabilities across an entire
-                    trajectory. Experiments on the LIBERO and Franka real-robot benchmarks show consistent
+                    trajectory. Experiments on the LIBERO, WidowX, and Franka real-robot benchmarks show consistent
                     improvements in Brier Score and ROC-AUC over cross-entropy baselines across multiple
-                    state-of-the-art VLA backbones.
+                    state-of-the-art VLA backbones (OpenVLA, UniVLA, &pi;&#x2080;-FAST, and &pi;&#x2080;).
                 </p>
             </div>
 
@@ -407,7 +407,7 @@
                 <div class="col-md-4">
                     <div class="method-card">
                         <h5>Model-Agnostic</h5>
-                        <p class="mb-0">Applied to OpenVLA, &pi;₀, and &pi;₀-FAST without any
+                        <p class="mb-0">Applied to OpenVLA, UniVLA, &pi;&#x2080;-FAST, and &pi;&#x2080; without any
                         architecture changes to the VLA itself.</p>
                     </div>
                 </div>
@@ -463,7 +463,8 @@
                 the hidden states of the frozen VLA backbone at each step and outputs a success probability:
             </p>
             <ul style="line-height: 2;">
-                <li><strong>SAFE-MLP:</strong> A shallow MLP applied independently at each step (ablation baseline).</li>
+                <li><strong>SAFE-MLP (BCE):</strong> A shallow MLP applied independently at each step, trained with binary cross-entropy (ablation baseline).</li>
+                <li><strong>SAFE-MLP-TD0:</strong> The same MLP trained with the TDQC loss \(G(\theta)\), isolating the effect of the TD objective on a non-recurrent model.</li>
                 <li><strong>SAFE-LSTM:</strong> An LSTM that processes the full history \(h_t\), enabling
                     temporally coherent predictions.</li>
                 <li><strong>SAFE-LSTM-TD0:</strong> The same LSTM trained with the full TDQC loss \(G(\theta)\)
@@ -531,12 +532,13 @@
             <ul style="line-height: 2;">
                 <li><strong>LIBERO</strong> — a suite of tabletop manipulation tasks in simulation, split into
                     seen and unseen task distributions to test generalization.</li>
-                <li><strong>Franka Real-Robot</strong> — pick-and-place tasks on a physical Franka Emika arm,
-                    evaluating real-world robustness.</li>
+                <li><strong>WidowX Real-Robot</strong> — tasks on a physical WidowX arm, evaluating real-world performance with OpenVLA.</li>
+                <li><strong>Franka Real-Robot</strong> — tasks on a physical Franka Emika arm with
+                    &pi;&#x2080;-FAST, evaluating real-world robustness.</li>
             </ul>
             <p>
-                Across both benchmarks we probe three frozen VLA backbones:
-                <strong>OpenVLA</strong>, <strong>&pi;₀</strong>, and <strong>&pi;₀-FAST</strong>.
+                Across these benchmarks we probe four frozen VLA backbones:
+                <strong>OpenVLA</strong>, <strong>UniVLA</strong>, <strong>&pi;&#x2080;-FAST</strong>, and <strong>&pi;&#x2080;</strong>.
                 Calibration probes are trained only on trajectories from the <em>seen</em> split and evaluated
                 on the held-out <em>unseen</em> split to measure out-of-distribution generalization.
                 We report <strong>ROC-AUC</strong> (discrimination) and <strong>Brier Score</strong>
@@ -928,7 +930,7 @@
                         </div>
                         <div class="fig-label">
                             <div class="fig-num">Figure 6 &mdash; Brier vs. ROC per Benchmark (Animated)</div>
-                            <div class="fig-desc">Animated cycle through all six backbone–benchmark combinations: OpenVLA-LIBERO, OpenVLA-WidowX, &pi;&#x2080;-LIBERO, &pi;&#x2080;-FAST-LIBERO, &pi;&#x2080;-FAST-Droid, and UniVLA-LIBERO. Each frame shows the Brier Score vs. ROC-AUC trade-off for all probe variants on that setting. TDQC consistently dominates the Pareto frontier across environments.</div>
+                            <div class="fig-desc">Animated cycle through all six backbone–benchmark combinations: OpenVLA-LIBERO, OpenVLA-WidowX, UniVLA-LIBERO, &pi;&#x2080;-FAST-LIBERO, &pi;&#x2080;-FAST-Franka, and &pi;&#x2080;-LIBERO. Each frame shows the Brier Score vs. ROC-AUC trade-off for all probe variants on that setting. TDQC consistently dominates the Pareto frontier across environments.</div>
                         </div>
                     </div>
                 </div>
@@ -954,8 +956,8 @@
                             </video>
                         </div>
                         <div class="video-label">
-                            <div class="vid-num">V1 &mdash; TDQC &mdash; Task 3 &mdash; ✅ Success &rarr; Predicted ✅ Success</div>
-                            <div class="vid-desc">TDQC (q-learning TD loss) correctly predicts a successful outcome on Task 3. The probe's \(\hat{p}_t\) rises steadily as the trajectory progresses.</div>
+                            <div class="vid-num">V1 &mdash; TDQC &mdash; Task 3 &mdash; ✅&rarr;✅ Correct</div>
+                            <div class="vid-desc">TDQC correctly predicts success. \(\hat{p}_t\) rises steadily throughout the trajectory.</div>
                         </div>
                     </div>
                 </div>
@@ -968,8 +970,8 @@
                             </video>
                         </div>
                         <div class="video-label">
-                            <div class="vid-num">V2 &mdash; LSTM Baseline &mdash; Task 3 &mdash; ✅ Success &rarr; Predicted ❌ Failure</div>
-                            <div class="vid-desc">The SAFE-LSTM cross-entropy baseline fails on <em>the same Task 3 rollout</em>: it predicts failure for an ultimately successful trajectory — a false negative. TDQC avoids this error.</div>
+                            <div class="vid-num">V2 &mdash; LSTM-BCE &mdash; Task 3 &mdash; ✅&rarr;❌ False Negative</div>
+                            <div class="vid-desc">SAFE-LSTM baseline predicts failure on the same successful rollout as V1 — a false negative that TDQC avoids.</div>
                         </div>
                     </div>
                 </div>
@@ -982,8 +984,8 @@
                             </video>
                         </div>
                         <div class="video-label">
-                            <div class="vid-num">V3 &mdash; TDQC &mdash; Task 5 &mdash; ❌ Failure &rarr; Predicted ❌ Failure</div>
-                            <div class="vid-desc">TDQC correctly identifies a failed trajectory on Task 5. \(\hat{p}_t\) declines mid-trajectory, enabling timely intervention before the task terminates.</div>
+                            <div class="vid-num">V3 &mdash; TDQC &mdash; Task 5 &mdash; ❌&rarr;❌ Correct</div>
+                            <div class="vid-desc">TDQC detects failure early. \(\hat{p}_t\) declines mid-trajectory, enabling timely intervention.</div>
                         </div>
                     </div>
                 </div>
@@ -996,8 +998,8 @@
                             </video>
                         </div>
                         <div class="video-label">
-                            <div class="vid-num">V4 &mdash; LSTM Baseline &mdash; Task 5 &mdash; ❌ Failure &rarr; Predicted ❌ Failure</div>
-                            <div class="vid-desc">The SAFE-LSTM cross-entropy baseline also predicts failure on Task 5, but with temporally noisy estimates. Compare with V3 to see how TDQC produces smoother, earlier divergence.</div>
+                            <div class="vid-num">V4 &mdash; LSTM-BCE &mdash; Task 5 &mdash; ❌&rarr;❌ Noisy</div>
+                            <div class="vid-desc">SAFE-LSTM also predicts failure, but with noisy per-step estimates. Compare with V3 for TDQC's smoother, earlier signal.</div>
                         </div>
                     </div>
                 </div>
@@ -1022,8 +1024,8 @@
                             </video>
                         </div>
                         <div class="video-label">
-                            <div class="vid-num">V5 &mdash; TDQC &mdash; Task 4 &mdash; ✅ Success &rarr; Predicted ✅ Success</div>
-                            <div class="vid-desc">TDQC correctly predicts success on real-robot Task 4. The TD-consistent probe maintains a rising \(\hat{p}_t\) throughout the manipulation, reflecting growing confidence as each sub-goal is achieved.</div>
+                            <div class="vid-num">V5 &mdash; TDQC &mdash; Task 4 &mdash; ✅&rarr;✅ Correct</div>
+                            <div class="vid-desc">TDQC correctly predicts success on the real robot. \(\hat{p}_t\) rises as each sub-goal is achieved.</div>
                         </div>
                     </div>
                 </div>
@@ -1036,8 +1038,8 @@
                             </video>
                         </div>
                         <div class="video-label">
-                            <div class="vid-num">V6 &mdash; LSTM Baseline &mdash; Task 4 &mdash; ✅ Success &rarr; Predicted ❌ Failure</div>
-                            <div class="vid-desc">SAFE-LSTM cross-entropy baseline incorrectly predicts failure on the same successful rollout (false negative). Without TD supervision, the probe's estimates are not anchored to future outcomes.</div>
+                            <div class="vid-num">V6 &mdash; LSTM-BCE &mdash; Task 4 &mdash; ✅&rarr;❌ False Negative</div>
+                            <div class="vid-desc">SAFE-LSTM baseline incorrectly predicts failure on the same rollout as V5. Without TD supervision, estimates drift from future outcomes.</div>
                         </div>
                     </div>
                 </div>
@@ -1050,8 +1052,8 @@
                             </video>
                         </div>
                         <div class="video-label">
-                            <div class="vid-num">V7 &mdash; IndepMLP Baseline &mdash; Task 4 &mdash; ✅ Success &rarr; Predicted ❌ Failure</div>
-                            <div class="vid-desc">The independent MLP baseline also fails on Task 4 (false negative). Treating each step in isolation, it cannot integrate evidence across the trajectory, leading to an overly pessimistic prediction.</div>
+                            <div class="vid-num">V7 &mdash; IndepMLP &mdash; Task 4 &mdash; ✅&rarr;❌ False Negative</div>
+                            <div class="vid-desc">IndepMLP baseline also fails on Task 4. Per-step independence prevents evidence accumulation, yielding an overly pessimistic prediction.</div>
                         </div>
                     </div>
                 </div>
@@ -1069,8 +1071,8 @@
                             </video>
                         </div>
                         <div class="video-label">
-                            <div class="vid-num">V8 &mdash; TDQC &mdash; Task 5 &mdash; ❌ Failure &rarr; Predicted ❌ Failure</div>
-                            <div class="vid-desc">TDQC correctly predicts failure on real-robot Task 5. \(\hat{p}_t\) drops smoothly ahead of task termination, providing an early warning signal that enables safe robot intervention.</div>
+                            <div class="vid-num">V8 &mdash; TDQC &mdash; Task 5 &mdash; ❌&rarr;❌ Correct</div>
+                            <div class="vid-desc">TDQC predicts failure early on real robot Task 5. \(\hat{p}_t\) drops smoothly ahead of termination, enabling safe intervention.</div>
                         </div>
                     </div>
                 </div>
@@ -1083,8 +1085,8 @@
                             </video>
                         </div>
                         <div class="video-label">
-                            <div class="vid-num">V9 &mdash; LSTM Baseline &mdash; Task 5 &mdash; ❌ Failure &rarr; Predicted ❌ Failure</div>
-                            <div class="vid-desc">SAFE-LSTM baseline also predicts failure on Task 5, but with higher per-step variance and less temporal consistency than TDQC. The noisy signal makes it harder to set a reliable threshold for intervention.</div>
+                            <div class="vid-num">V9 &mdash; LSTM-BCE &mdash; Task 5 &mdash; ❌&rarr;❌ Noisy</div>
+                            <div class="vid-desc">SAFE-LSTM also predicts failure, but with high per-step variance. The noisy signal makes intervention thresholds unreliable.</div>
                         </div>
                     </div>
                 </div>
@@ -1097,8 +1099,8 @@
                             </video>
                         </div>
                         <div class="video-label">
-                            <div class="vid-num">V10 &mdash; IndepMLP Baseline &mdash; Task 5 &mdash; ❌ Failure &rarr; Predicted ✅ Success</div>
-                            <div class="vid-desc">The IndepMLP baseline produces a <strong>dangerous false positive</strong>: it predicts success throughout a clearly failing trajectory. This illustrates why per-step independent calibration is fundamentally insufficient for safe robot deployment.</div>
+                            <div class="vid-num">V10 &mdash; IndepMLP &mdash; Task 5 &mdash; ❌&rarr;✅ False Positive</div>
+                            <div class="vid-desc"><strong>Dangerous false positive:</strong> IndepMLP predicts success on a clearly failing trajectory — illustrating why per-step calibration is insufficient for safe deployment.</div>
                         </div>
                     </div>
                 </div>
@@ -1109,8 +1111,9 @@
 
             <h2 class="section-title">Citation</h2>
             <div class="citation-box">
-@article{authors2026tdqc,<br>
-&nbsp;&nbsp;title={Temporal Difference Calibration in Sequential Tasks},<br>
+@inproceedings{authors2026tdqc,<br>
+&nbsp;&nbsp;title={Temporal Difference Calibration in Sequential Tasks: Application to Vision-Language-Action Models},<br>
+&nbsp;&nbsp;author={Shelly Francis-Meretzki and Mirco Mutti and Yaniv Romano and Aviv Tamar},<br>
 &nbsp;&nbsp;booktitle={International Conference on Machine Learning (ICML)},<br>
 &nbsp;&nbsp;year={2026}<br>
 }
