@@ -3,78 +3,1121 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Coming Soon | TDQC Project</title>
+    <title>TDQC: Sequential Calibration for VLA Models</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
     <style>
         :root {
             --primary-dark: #1a2a3a; /* Midnight Blue */
             --accent-blue: #3498db;  /* Science Blue */
+            --failure-red: #e74c3c;  /* Alert Crimson */
             --bg-light: #f4f7f6;
         }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: white; color: #2c3e50; }
+        
+        /* Hero Section */
+        .hero { 
+            background: linear-gradient(135deg, var(--primary-dark) 0%, #2c3e50 100%); 
+            color: white; 
+            padding: 100px 20px; 
+            text-align: center;
+            border-bottom: 5px solid var(--accent-blue);
+        }
+        .hero h1 { font-weight: 700; font-size: 3rem; margin-bottom: 10px; }
+        .hero h3 { font-weight: 300; opacity: 0.9; margin-bottom: 30px; }
+        
+        /* Links */
+        .btn-custom { 
+            background-color: transparent; 
+            color: white; 
+            border: 2px solid white; 
+            border-radius: 5px; 
+            padding: 12px 30px; 
+            margin: 10px; 
+            transition: all 0.3s;
+            font-weight: 600;
+            text-decoration: none;
+            display: inline-block;
+        }
+        .btn-custom:hover { background-color: var(--accent-blue); border-color: var(--accent-blue); color: white; }
 
-        body, html {
-            height: 100%;
+        /* Content Sections */
+        .section-title { 
+            color: var(--primary-dark); 
+            font-weight: 700; 
+            margin-top: 50px; 
+            margin-bottom: 25px; 
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        .math-block { 
+            background: var(--bg-light); 
+            padding: 25px; 
+            border-left: 5px solid var(--accent-blue); 
+            font-size: 1.2rem;
+            margin: 30px 0;
+        }
+        
+        /* Results Table */
+        .table thead { background-color: var(--primary-dark); color: white; }
+        .highlight-row { border-left: 5px solid var(--accent-blue); font-weight: bold; }
+
+        /* Citation Box */
+        .citation-box { background: #222; color: #aaa; padding: 20px; border-radius: 5px; font-family: monospace; }
+
+        /* Abstract */
+        .abstract-box {
+            background: var(--bg-light);
+            border-left: 5px solid var(--accent-blue);
+            padding: 25px 30px;
+            border-radius: 0 8px 8px 0;
+            margin: 30px 0;
+        }
+        .abstract-box p { margin: 0; font-size: 1.05rem; line-height: 1.8; }
+
+        /* Section dividers */
+        .section-divider { border: none; border-top: 1px solid #dce3ea; margin: 50px 0; }
+
+        /* Algorithm box */
+        .algo-box {
+            background: #fafbfc;
+            border: 1.5px solid #c5cdd8;
+            border-radius: 6px;
+            margin: 30px 0;
+            overflow: hidden;
+            font-family: 'Georgia', serif;
+            font-size: 0.93rem;
+        }
+        .algo-header {
+            background: var(--primary-dark);
+            color: #fff;
+            padding: 10px 20px;
+            font-family: 'Segoe UI', sans-serif;
+            font-weight: 700;
+            font-size: 0.95rem;
+            letter-spacing: 0.5px;
+        }
+        .algo-rule-top {
+            border: none;
+            border-top: 2px solid #c5cdd8;
             margin: 0;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: var(--primary-dark);
+        }
+        .algo-rule-bottom {
+            border: none;
+            border-top: 1.5px solid #c5cdd8;
+            margin: 0;
+        }
+        .algo-body {
+            padding: 6px 0 10px 0;
+        }
+        .algo-line {
             display: flex;
+            align-items: baseline;
+            padding: 3px 20px 3px 0;
+            line-height: 1.75;
+        }
+        .algo-line:hover { background: #f0f4f8; }
+        .algo-lineno {
+            min-width: 38px;
+            text-align: right;
+            padding-right: 16px;
+            color: #9aacbb;
+            font-family: 'Courier New', monospace;
+            font-size: 0.8rem;
+            user-select: none;
+            flex-shrink: 0;
+        }
+        .algo-content {
+            font-family: 'Georgia', serif;
+            font-size: 0.93rem;
+            color: #2c3e50;
+        }
+        .algo-content.i1 { padding-left: 1.8em; }
+        .algo-content.i2 { padding-left: 3.6em; }
+        .kw { color: #2471a3; font-weight: 700; font-style: normal; }
+        .algo-comment { color: #7f8c8d; font-style: italic; font-size: 0.88rem; }
+        .algo-io-block {
+            background: #f0f4f8;
+            border-bottom: 1.5px solid #c5cdd8;
+            padding: 8px 20px 8px 20px;
+            font-size: 0.9rem;
+            line-height: 1.8;
+        }
+        .algo-io-block strong { color: var(--primary-dark); }
+
+        /* Figure cards */
+        .fig-card {
+            border: 1px solid #dce3ea;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+            margin-bottom: 28px;
+            transition: box-shadow 0.2s;
+        }
+        .fig-card:hover { box-shadow: 0 6px 20px rgba(52,152,219,0.15); }
+        .fig-img-area {
+            background: var(--bg-light);
+            border-bottom: 1px solid #dce3ea;
+            min-height: 220px;
+            display: flex;
+            flex-direction: column;
             align-items: center;
             justify-content: center;
-            color: white;
-            text-align: center;
-        }
-
-        .container {
+            color: #9aacbb;
+            font-size: 0.88rem;
             padding: 20px;
+            text-align: center;
+            gap: 10px;
         }
+        .fig-img-area svg { opacity: 0.35; flex-shrink: 0; }
+        .fig-img-area img { max-width: 100%; max-height: 260px; object-fit: contain; }
+        .fig-label {
+            padding: 12px 16px;
+            background: white;
+        }
+        .fig-label .fig-num { font-weight: 700; color: var(--primary-dark); font-size: 0.88rem; text-transform: uppercase; letter-spacing: 0.5px; }
+        .fig-label .fig-desc { font-size: 0.88rem; color: #555; margin-top: 3px; line-height: 1.5; font-style: italic; }
+        .fig-caption { font-size: 0.9rem; color: #555; margin-top: 10px; font-style: italic; text-align: center; }
 
-        h1 {
-            font-size: 3rem;
-            margin-bottom: 10px;
-            letter-spacing: 2px;
+        /* Video cards */
+        .video-card {
+            border: 1px solid #dce3ea;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+            margin-bottom: 28px;
+            transition: box-shadow 0.2s;
+        }
+        .video-card:hover { box-shadow: 0 6px 20px rgba(52,152,219,0.15); }
+        .video-area {
+            background: #0d1b2a;
+            min-height: 190px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            position: relative;
+        }
+        .video-area video { width: 100%; display: block; max-height: 260px; object-fit: contain; }
+        .video-play-icon {
+            width: 56px; height: 56px;
+            background: rgba(52,152,219,0.85);
+            border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+        }
+        .video-play-icon svg { margin-left: 4px; }
+        .video-placeholder-text { color: rgba(255,255,255,0.4); font-size: 0.85rem; }
+        .video-label {
+            padding: 12px 16px;
+            background: white;
+        }
+        .video-label .vid-num { font-weight: 700; color: var(--primary-dark); font-size: 0.88rem; text-transform: uppercase; letter-spacing: 0.5px; }
+        .video-label .vid-desc { font-size: 0.88rem; color: #555; margin-top: 3px; line-height: 1.5; font-style: italic; }
+
+        /* Video tabs */
+        .video-tabs .nav-link {
+            color: var(--primary-dark);
+            font-weight: 600;
+            border-radius: 6px 6px 0 0;
+            border: 1px solid #dce3ea;
+            border-bottom: none;
+            background: #f4f7f6;
+            margin-right: 4px;
+            padding: 10px 24px;
+        }
+        .video-tabs .nav-link.active {
+            background: white;
+            color: var(--accent-blue);
+            border-color: #dce3ea;
+            border-bottom-color: white;
+        }
+        .video-tab-content {
+            border: 1px solid #dce3ea;
+            border-radius: 0 6px 6px 6px;
+            padding: 28px 20px 10px 20px;
+            background: white;
+        }
+        .subsec-tag {
+            display: inline-block;
+            background: var(--accent-blue);
+            color: white;
+            font-size: 0.75rem;
+            font-weight: 700;
+            letter-spacing: 1px;
             text-transform: uppercase;
+            padding: 3px 10px;
+            border-radius: 4px;
+            margin-bottom: 14px;
         }
 
-        .accent-bar {
-            width: 60px;
-            height: 4px;
-            background-color: var(--accent-blue);
-            margin: 20px auto;
+        /* Comparison card */
+        .method-card {
+            border: 1px solid #dee2e6;
+            border-radius: 8px;
+            padding: 20px;
+            height: 100%;
+            transition: box-shadow 0.2s;
+        }
+        .method-card:hover { box-shadow: 0 4px 16px rgba(52,152,219,0.15); }
+        .method-card h5 { font-weight: 700; color: var(--primary-dark); margin-bottom: 10px; }
+        .method-card.highlight-card { border-color: var(--accent-blue); border-width: 2px; }
+
+        /* Inline badge */
+        .badge-tdqc { background-color: var(--accent-blue); color: white; padding: 2px 8px; border-radius: 4px; font-size: 0.8rem; font-weight: 600; letter-spacing: 0.5px; }
+
+        /* Table improvements */
+        .table thead { background-color: var(--primary-dark); color: white; }
+        .highlight-row { border-left: 5px solid var(--accent-blue); font-weight: bold; background-color: #eaf4fd; }
+        .best-val { color: #27ae60; font-weight: 700; }
+        .best-result { color: #cc0000; font-weight: 700; }
+        .ours-row td, .ours-row th { background-color: #ebebeb !important; }
+        .ours-row td.group-cell { background-color: #fff !important; }
+        .results-table { font-size: 0.79rem; }
+        .results-table th, .results-table td { text-align: center; vertical-align: middle; padding: 4px 6px; }
+        .group-cell { font-weight: 600; white-space: nowrap; background-color: #fff !important; }
+        .method-cell { text-align: left !important; white-space: nowrap; }
+        .group-sep td, .group-sep th { border-top: 2.5px solid #1a2a3a !important; }
+
+        /* ── Mobile / iPhone ── */
+        @media (max-width: 768px) {
+            .hero { padding: 60px 16px; }
+            .hero h1 { font-size: 1.55rem; line-height: 1.3; }
+            .hero h3, .hero p { font-size: 0.95rem; }
+            .btn-custom { display: block; margin: 8px auto; width: 80%; text-align: center; padding: 10px 16px; }
+            .section-title { font-size: 1.1rem; margin-top: 30px; }
+            .math-block { padding: 14px 12px; font-size: 1rem; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+            .algo-box { font-size: 0.82rem; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+            .algo-line { padding: 3px 12px 3px 0; }
+            .algo-content.i1 { padding-left: 1.2em; }
+            .algo-content.i2 { padding-left: 2.4em; }
+            .abstract-box { padding: 16px 14px; }
+            .abstract-box p { font-size: 0.97rem; }
+            .results-table { font-size: 0.72rem; }
+            .results-table th, .results-table td { padding: 3px 4px; }
+            .fig-img-area { min-height: 160px; padding: 12px; }
+            .fig-img-area img { max-height: 220px; }
+            .video-tabs .nav-link { padding: 8px 12px; font-size: 0.82rem; }
         }
 
-        p {
-            font-size: 1.2rem;
-            opacity: 0.8;
-            max-width: 500px;
-            margin: 0 auto;
-            line-height: 1.6;
-        }
-
-        .loading-dots:after {
-            content: ' .';
-            animation: dots 1.5s steps(5, end) infinite;
-        }
-
-        @keyframes dots {
-            0%, 20% { content: ' .'; }
-            40% { content: ' . .'; }
-            60% { content: ' . . .'; }
-            80%, 100% { content: ''; }
+        /* Prevent MathJax display math from overflowing on mobile */
+        .MathJax_Display, mjx-container[display="true"] {
+            overflow-x: auto;
+            overflow-y: hidden;
+            -webkit-overflow-scrolling: touch;
+            max-width: 100%;
         }
     </style>
+    <!-- MathJax for equation rendering -->
+    <script>
+      window.MathJax = {
+        tex: {
+          inlineMath: [['\\(', '\\)'], ['$', '$']],
+          displayMath: [['$$', '$$'], ['\\[', '\\]']],
+          processEscapes: true
+        },
+        svg: { fontCache: 'global' }
+      };
+    </script>
+    <script defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
 </head>
 <body>
 
+<div class="hero">
     <div class="container">
-        <h1>Coming Soon</h1>
-        <div class="accent-bar"></div>
-        <p>
-            <strong>Temporal Difference Calibration in Sequential Tasks</strong><br>
-            Application to Vision-Language-Action Models
-        </p>
-        <p style="margin-top: 30px; font-size: 0.9rem;" class="loading-dots">
-            Preparing project page
-        </p>
+        <h1>Temporal Difference Calibration in Sequential Tasks: Application to Vision-Language-Action Models</h1>
+        <p class="authors">Anonymous Authors • ICML 2026 Submission</p>
+        <div class="mt-4">
+            <a href="#" class="btn-custom">READ PAPER</a>
+            <a href="https://anonymous.4open.science/r/safe-vla-TDQC-DC5F" class="btn-custom">VIEW ON GITHUB</a>
+        </div>
     </div>
+</div>
+
+<div class="container my-5">
+    <div class="row">
+        <div class="col-lg-10 offset-lg-1">
+
+            <!-- ═══════════════════════════════════════════════════ ABSTRACT -->
+            <h2 class="section-title">Abstract</h2>
+            <div class="abstract-box">
+                <p>
+                    Predicting whether a robot will successfully complete a manipulation task is crucial for safe and
+                    reliable deployment. Existing uncertainty calibration methods treat each time-step independently,
+                    ignoring the sequential structure of trajectories and producing poorly calibrated success
+                    predictions. We introduce <strong>Temporal-Difference Q-based Calibration (TDQC)</strong>, a
+                    post-hoc calibration framework that applies Temporal Difference (TD) learning to train a
+                    lightweight probe on top of frozen Vision-Language-Action (VLA) models. By minimizing a
+                    sequential Brier score whose risk minimizer is the policy's <em>value function</em>, TDQC
+                    produces temporally consistent, well-calibrated success probabilities across an entire
+                    trajectory. Experiments on the LIBERO and Franka real-robot benchmarks show consistent
+                    improvements in Brier Score and ROC-AUC over cross-entropy baselines across multiple
+                    state-of-the-art VLA backbones.
+                </p>
+            </div>
+
+            <hr class="section-divider">
+
+            <!-- ════════════════════════════════════════════ INTRODUCTION -->
+            <h2 class="section-title">1 &nbsp; Introduction</h2>
+
+            <p>
+                Vision-Language-Action (VLA) models have rapidly emerged as a powerful paradigm for generalist
+                robot manipulation, combining the rich semantic understanding of large language models with
+                sensorimotor control. Despite impressive task-completion rates, deploying these models in
+                safety-critical settings requires knowing <em>how confident</em> the model is that the current
+                trajectory will succeed — and that confidence must be <strong>calibrated</strong>.
+            </p>
+
+            <p>
+                Standard post-hoc calibration (e.g., Platt scaling, temperature scaling) was designed for
+                i.i.d. classification. In robotics, however, observations arrive as a temporally correlated
+                sequence and the outcome label — binary task success — is revealed only at the end. This creates
+                two fundamental problems:
+            </p>
+
+            <ul style="line-height: 2;">
+                <li><strong>Temporal inconsistency:</strong> independently calibrated per-step scores fluctuate
+                    wildly across a trajectory, giving unreliable early-warning signals.</li>
+                <li><strong>Label scarcity:</strong> only the final step carries a ground-truth label, making
+                    standard cross-entropy training extremely data-inefficient.</li>
+            </ul>
+
+            <p>
+                We address both problems with <strong>TDQC</strong>. Our key insight is that the Brier score,
+                extended to sequential prediction, decomposes into a telescoping sum of TD-like squared errors.
+                The global risk minimizer of this loss is exactly the state-value function \(V^\pi\), connecting
+                calibration theory to reinforcement learning in a principled way. TDQC is:
+            </p>
+
+            <div class="row g-3 my-3">
+                <div class="col-md-4">
+                    <div class="method-card">
+                        <h5>Post-hoc &amp; Lightweight</h5>
+                        <p class="mb-0">A small MLP or LSTM probe is trained on top of a <em>frozen</em> VLA
+                        backbone. No fine-tuning of the base model is required.</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="method-card highlight-card">
+                        <h5><span class="badge-tdqc">TDQC</span> &nbsp; TD-Consistent</h5>
+                        <p class="mb-0">The loss propagates supervision from future steps backwards via
+                        Temporal Difference updates, leveraging every time-step as a training signal.</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="method-card">
+                        <h5>Model-Agnostic</h5>
+                        <p class="mb-0">Applied to OpenVLA, &pi;₀, and &pi;₀-FAST without any
+                        architecture changes to the VLA itself.</p>
+                    </div>
+                </div>
+            </div>
+
+            <hr class="section-divider">
+
+            <!-- ══════════════════════════════════════════════════ METHOD -->
+            <h2 class="section-title">2 &nbsp; Method</h2>
+
+            <h4 class="mt-4 mb-3" style="color: var(--primary-dark);">2.1 &nbsp; Problem Setting</h4>
+            <p>
+                Let \(h_t\) denote the history of observations and actions up to time \(t\) in a trajectory of
+                length \(T\), and let \(y \in \{0,1\}\) denote final task success. We wish to learn a probe
+                \(f_\theta : \mathcal{H} \to [0,1]\) such that \(f_\theta(h_t)\) is a calibrated estimate of
+                \(\Pr[\text{success} \mid h_t]\) at every step.
+            </p>
+
+            <h4 class="mt-4 mb-3" style="color: var(--primary-dark);">2.2 &nbsp; Sequential Brier Score &amp; the Value-Function Connection</h4>
+            <p>
+                The standard per-step Brier score \(\mathbb{E}[(f_\theta(h_t) - y)^2]\) ignores temporal structure.
+                We instead minimize the <em>sequential</em> Brier score — the sum of squared prediction errors
+                across all time-steps. Crucially, this loss telescopes:
+            </p>
+
+            <div class="math-block text-center">
+                $$\mathcal{L}_{\text{seq}}(\theta)
+                  = \mathbb{E}\!\left[\sum_{t=1}^{T}(f_\theta(h_t) - y)^2\right]$$
+            </div>
+
+            <p>
+                Adding and subtracting consecutive predictions and completing the square yields a
+                Temporal-Difference decomposition. The unique minimizer satisfies
+                \(f_\theta(h_t) = \mathbb{E}[y \mid h_t]\), i.e., the policy's <strong>value function</strong>
+                \(V^\pi(h_t)\). This motivates the TDQC training objective:
+            </p>
+
+            <div class="math-block text-center">
+                $$G(\theta)
+                  = \sum_{t=1}^{T-1}\!\bigl(f_\theta(h_t) - f_\theta(h_{t+1})\bigr)^2
+                  \;+\; \bigl(f_\theta(h_T) - y\bigr)^2$$
+                <p class="mb-0"><small><strong>TDQC Loss</strong> — TD consistency terms (left) plus a terminal supervision term (right).</small></p>
+            </div>
+
+            <p>
+                The middle terms enforce temporal consistency along the trajectory, while the terminal term
+                anchors the final prediction to the ground-truth label. Only one label per trajectory is needed.
+            </p>
+
+            <h4 class="mt-4 mb-3" style="color: var(--primary-dark);">2.3 &nbsp; SAFE Probe Architecture</h4>
+            <p>
+                We parameterize \(f_\theta\) as the <strong>SAFE</strong> probe — a recurrent model that consumes
+                the hidden states of the frozen VLA backbone at each step and outputs a success probability:
+            </p>
+            <ul style="line-height: 2;">
+                <li><strong>SAFE-MLP:</strong> A shallow MLP applied independently at each step (ablation baseline).</li>
+                <li><strong>SAFE-LSTM:</strong> An LSTM that processes the full history \(h_t\), enabling
+                    temporally coherent predictions.</li>
+                <li><strong>SAFE-LSTM-TD0:</strong> The same LSTM trained with the full TDQC loss \(G(\theta)\)
+                    — our best-performing variant.</li>
+            </ul>
+
+            <h4 class="mt-4 mb-3" style="color: var(--primary-dark);">2.4 &nbsp; Training Procedure</h4>
+            <div class="algo-box">
+                <div class="algo-header">Algorithm 1 &nbsp;—&nbsp; TDQC Training</div>
+                <div class="algo-io-block">
+                    <strong>Input:</strong> trajectory dataset \(\mathcal{D} = \{(h_1,\ldots,h_T,\, y)\}\);&nbsp; frozen VLA backbone<br>
+                    <strong>Output:</strong> calibrated probe \(f_\theta\)
+                </div>
+                <hr class="algo-rule-top">
+                <div class="algo-body">
+                    <div class="algo-line">
+                        <span class="algo-lineno">1</span>
+                        <span class="algo-content">Initialize SAFE probe parameters \(\theta\) randomly</span>
+                    </div>
+                    <div class="algo-line">
+                        <span class="algo-lineno">2</span>
+                        <span class="algo-content"><span class="kw">for</span> each mini-batch \(B \subset \mathcal{D}\) <span class="kw">do</span></span>
+                    </div>
+                    <div class="algo-line">
+                        <span class="algo-lineno">3</span>
+                        <span class="algo-content i1">Extract backbone features \(\phi_t\) for all \(h_t \in B\) &nbsp;<span class="algo-comment">// no gradient through backbone</span></span>
+                    </div>
+                    <div class="algo-line">
+                        <span class="algo-lineno">4</span>
+                        <span class="algo-content i1">Compute probe outputs \(\hat{p}_t = f_\theta(\phi_{1:t})\) for \(t = 1,\ldots,T\)</span>
+                    </div>
+                    <div class="algo-line">
+                        <span class="algo-lineno">5</span>
+                        <span class="algo-content i1">Compute TDQC loss:</span>
+                    </div>
+                    <div class="algo-line">
+                        <span class="algo-lineno"></span>
+                        <span class="algo-content i2">\(G(\theta) = \displaystyle\sum_{t=1}^{T-1}(\hat{p}_t - \hat{p}_{t+1})^2 \;+\; (\hat{p}_T - y)^2\)</span>
+                    </div>
+                    <div class="algo-line">
+                        <span class="algo-lineno">6</span>
+                        <span class="algo-content i1">Update &nbsp;\(\theta \leftarrow \theta - \alpha\,\nabla_\theta G(\theta)\)</span>
+                    </div>
+                    <div class="algo-line">
+                        <span class="algo-lineno">7</span>
+                        <span class="algo-content"><span class="kw">end for</span></span>
+                    </div>
+                    <div class="algo-line">
+                        <span class="algo-lineno">8</span>
+                        <span class="algo-content"><span class="kw">return</span> \(f_\theta\)</span>
+                    </div>
+                </div>
+                <hr class="algo-rule-bottom">
+            </div>
+
+            <hr class="section-divider">
+
+            <!-- ══════════════════════════════════════════════ EXPERIMENTS -->
+            <h2 class="section-title">3 &nbsp; Experiments</h2>
+
+            <h4 class="mt-4 mb-3" style="color: var(--primary-dark);">3.1 &nbsp; Setup</h4>
+            <p>
+                We evaluate on two robot manipulation benchmarks:
+            </p>
+            <ul style="line-height: 2;">
+                <li><strong>LIBERO</strong> — a suite of tabletop manipulation tasks in simulation, split into
+                    seen and unseen task distributions to test generalization.</li>
+                <li><strong>Franka Real-Robot</strong> — pick-and-place tasks on a physical Franka Emika arm,
+                    evaluating real-world robustness.</li>
+            </ul>
+            <p>
+                Across both benchmarks we probe three frozen VLA backbones:
+                <strong>OpenVLA</strong>, <strong>&pi;₀</strong>, and <strong>&pi;₀-FAST</strong>.
+                Calibration probes are trained only on trajectories from the <em>seen</em> split and evaluated
+                on the held-out <em>unseen</em> split to measure out-of-distribution generalization.
+                We report <strong>ROC-AUC</strong> (discrimination) and <strong>Brier Score</strong>
+                (calibration quality, lower is better).
+            </p>
+
+            <h4 class="mt-4 mb-3" style="color: var(--primary-dark);">3.2 &nbsp; Benchmark Results</h4>
+
+            <!-- ══ Table 1: Brier Score ══ -->
+            <h5 class="mt-4 mb-2" style="color: var(--primary-dark);">Brier Score ↓</h5>
+            <div class="table-responsive mt-2">
+              <table class="table table-bordered table-sm results-table">
+                <thead>
+                  <tr>
+                    <th rowspan="3"></th>
+                    <th>VLA Model</th>
+                    <th colspan="2">OpenVLA</th>
+                    <th colspan="2">OpenVLA</th>
+                    <th colspan="2">UniVLA</th>
+                    <th colspan="2">\(\pi_0\)-FAST</th>
+                    <th colspan="2">\(\pi_0\)-FAST</th>
+                    <th colspan="2">\(\pi_0\)</th>
+                  </tr>
+                  <tr>
+                    <th>Benchmark</th>
+                    <th colspan="2">LIBERO</th>
+                    <th colspan="2">WidowX</th>
+                    <th colspan="2">LIBERO</th>
+                    <th colspan="2">LIBERO</th>
+                    <th colspan="2">Franka</th>
+                    <th colspan="2">LIBERO</th>
+                  </tr>
+                  <tr>
+                    <th>Eval Task Split</th>
+                    <th>Seen</th><th>Unseen</th>
+                    <th>Seen</th><th>Unseen</th>
+                    <th>Seen</th><th>Unseen</th>
+                    <th>Seen</th><th>Unseen</th>
+                    <th>Seen</th><th>Unseen</th>
+                    <th>Seen</th><th>Unseen</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <!-- Static Baselines -->
+                  <tr>
+                    <td rowspan="5" class="group-cell">Static Baselines</td>
+                    <td class="method-cell">Max prob.</td>
+                    <td>0.395</td><td>0.390</td>
+                    <td>0.572</td><td>0.579</td>
+                    <td>0.909</td><td>0.899</td>
+                                        <td>0.320</td><td>0.318</td>
+                                        <td>0.331</td><td>0.323</td>
+                    <td>&mdash;</td><td>&mdash;</td>
+                  </tr>
+                  <tr>
+                    <td class="method-cell">Avg prob.</td>
+                    <td>0.348</td><td>0.364</td>
+                    <td>0.275</td><td>0.282</td>
+                    <td>0.529</td><td>0.532</td>
+                                        <td>0.212</td><td>0.218</td>
+                                        <td>0.290</td><td>0.294</td>
+                    <td>&mdash;</td><td>&mdash;</td>
+                  </tr>
+                  <tr>
+                    <td class="method-cell">Running Avg prob.</td>
+                    <td>0.338</td><td>0.356</td>
+                    <td>0.255</td><td>0.257</td>
+                    <td>0.543</td><td>0.544</td>
+                                        <td>0.244</td><td>0.238</td>
+                                        <td>0.359</td><td>0.361</td>
+                    <td>&mdash;</td><td>&mdash;</td>
+                  </tr>
+                  <tr>
+                    <td class="method-cell">Avg entropy</td>
+                    <td>0.306</td><td>0.313</td>
+                    <td>0.414</td><td>0.426</td>
+                    <td>0.406</td><td>0.391</td>
+                                        <td>0.209</td><td>0.222</td>
+                                        <td>0.281</td><td>0.281</td>
+                    <td>&mdash;</td><td>&mdash;</td>
+                  </tr>
+                  <tr>
+                    <td class="method-cell">Running Avg entropy</td>
+                    <td>0.265</td><td>0.273</td>
+                    <td>0.435</td><td>0.432</td>
+                    <td>0.343</td><td>0.330</td>
+                                        <td>0.279</td><td>0.264</td>
+                                        <td>0.341</td><td>0.339</td>
+                    <td>&mdash;</td><td>&mdash;</td>
+                  </tr>
+                  <!-- Learned Baselines -->
+                  <tr class="group-sep">
+                    <td rowspan="4" class="group-cell">Learned Baselines</td>
+                    <td class="method-cell"><em>SAFE-LSTM</em></td>
+                    <td>0.204</td><td>0.255</td>
+                    <td>0.169</td><td>0.213</td>
+                    <td>0.124</td><td>0.162</td>
+                    <td>0.106</td><td>0.148</td>
+                    <td>0.220</td><td>0.288</td>
+                    <td>0.123</td><td>0.172</td>
+                  </tr>
+                  <tr class="ours-row">
+                    <td class="method-cell"><em>SAFE-LSTM-TD0 (Ours)</em></td>
+                    <td>0.197</td><td>0.218</td>
+                    <td><span class="best-result">0.096</span></td><td><span class="best-result">0.153</span></td>
+                    <td><span class="best-result">0.064</span></td><td><span class="best-result">0.100</span></td>
+                    <td><span class="best-result">0.103</span></td><td>0.163</td>
+                    <td><span class="best-result">0.150</span></td><td><span class="best-result">0.215</span></td>
+                    <td><span class="best-result">0.061</span></td><td><span class="best-result">0.097</span></td>
+                  </tr>
+                  <tr>
+                    <td class="method-cell"><em>SAFE-MLP BCE</em></td>
+                    <td>0.192</td><td>0.231</td>
+                    <td>0.127</td><td>0.164</td>
+                    <td>0.091</td><td>0.158</td>
+                    <td><span class="best-result">0.103</span></td><td>0.162</td>
+                    <td>0.206</td><td>0.248</td>
+                    <td>0.075</td><td>0.137</td>
+                  </tr>
+                  <tr class="ours-row">
+                    <td class="method-cell"><em>SAFE-MLP-TD0 (Ours)</em></td>
+                    <td>0.195</td><td>0.229</td>
+                    <td>0.130</td><td>0.169</td>
+                    <td>0.066</td><td>0.131</td>
+                    <td>0.109</td><td>0.150</td>
+                    <td>0.210</td><td>0.229</td>
+                    <td>0.068</td><td>0.128</td>
+                  </tr>
+                  <!-- TDQC -->
+                  <tr class="ours-row group-sep">
+                    <td rowspan="2" class="group-cell">TDQC</td>
+                    <td class="method-cell"><em>TDQC-BCE (Ours)</em></td>
+                    <td>0.199</td><td>0.206</td>
+                    <td>0.301</td><td>0.344</td>
+                    <td>0.138</td><td>0.152</td>
+                    <td>0.122</td><td>0.158</td>
+                                        <td>0.237</td><td>0.243</td>
+                    <td>&mdash;</td><td>&mdash;</td>
+                  </tr>
+                  <tr class="ours-row">
+                    <td class="method-cell"><em>TDQC-TD0 (Ours)</em></td>
+                    <td><span class="best-result">0.191</span></td><td><span class="best-result">0.197</span></td>
+                    <td>0.156</td><td>0.192</td>
+                    <td>0.100</td><td>0.107</td>
+                    <td>0.105</td><td><span class="best-result">0.141</span></td>
+                                        <td>0.204</td><td>0.228</td>
+                    <td>&mdash;</td><td>&mdash;</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <p class="fig-caption mt-1">
+              <strong>Table 1 &mdash; Brier Score ↓.</strong> Results on simulation and real robot experiments, averaged over 21 seeds which determine different train-test splits of the tasks. &ldquo;&mdash;&rdquo; indicates that the Brier score cannot be calculated for the method. <span class="best-result">Red bold</span> = best per column. TDQC achieves the lowest sequential Brier scores on all benchmarks except \(\pi_0\)-FAST LIBERO.
+            </p>
+
+            <!-- ══ Table 2: ROC-AUC ══ -->
+            <h5 class="mt-4 mb-2" style="color: var(--primary-dark);">ROC-AUC ↑</h5>
+            <div class="table-responsive mt-2">
+              <table class="table table-bordered table-sm results-table">
+                <thead>
+                  <tr>
+                    <th rowspan="3"></th>
+                    <th>VLA Model</th>
+                    <th colspan="2">OpenVLA</th>
+                    <th colspan="2">OpenVLA</th>
+                    <th colspan="2">UniVLA</th>
+                    <th colspan="2">\(\pi_0\)-FAST</th>
+                    <th colspan="2">\(\pi_0\)-FAST</th>
+                    <th colspan="2">\(\pi_0\)</th>
+                  </tr>
+                  <tr>
+                    <th>Benchmark</th>
+                    <th colspan="2">LIBERO</th>
+                    <th colspan="2">WidowX</th>
+                    <th colspan="2">LIBERO</th>
+                    <th colspan="2">LIBERO</th>
+                    <th colspan="2">Franka</th>
+                    <th colspan="2">LIBERO</th>
+                  </tr>
+                  <tr>
+                    <th>Eval Task Split</th>
+                    <th>Seen</th><th>Unseen</th>
+                    <th>Seen</th><th>Unseen</th>
+                    <th>Seen</th><th>Unseen</th>
+                    <th>Seen</th><th>Unseen</th>
+                    <th>Seen</th><th>Unseen</th>
+                    <th>Seen</th><th>Unseen</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <!-- Static Baselines -->
+                  <tr>
+                    <td rowspan="5" class="group-cell">Static Baselines</td>
+                    <td class="method-cell">Max prob.</td>
+                    <td>54.64</td><td>55.78</td>
+                    <td>53.25</td><td>53.20</td>
+                    <td>50.00</td><td>50.00</td>
+                    <td>61.75</td><td>63.49</td>
+                                        <td>48.61</td><td>46.64</td>
+                    <td>&mdash;</td><td>&mdash;</td>
+                  </tr>
+                  <tr>
+                    <td class="method-cell">Avg prob.</td>
+                    <td>47.08</td><td>48.09</td>
+                    <td>47.47</td><td>48.30</td>
+                    <td>42.96</td><td>40.25</td>
+                    <td>47.36</td><td>48.09</td>
+                                        <td>49.45</td><td>48.03</td>
+                    <td>&mdash;</td><td>&mdash;</td>
+                  </tr>
+                  <tr>
+                    <td class="method-cell">Running Avg prob.</td>
+                    <td>49.19</td><td>47.72</td>
+                    <td>49.20</td><td>46.37</td>
+                    <td>43.05</td><td>40.29</td>
+                    <td>53.95</td><td>55.68</td>
+                                        <td>52.95</td><td>49.98</td>
+                    <td>&mdash;</td><td>&mdash;</td>
+                  </tr>
+                  <tr>
+                    <td class="method-cell">Avg entropy</td>
+                    <td>46.81</td><td>46.75</td>
+                    <td>50.19</td><td>49.36</td>
+                    <td>41.34</td><td>47.36</td>
+                    <td>45.42</td><td>46.30</td>
+                                        <td>49.28</td><td>49.07</td>
+                    <td>&mdash;</td><td>&mdash;</td>
+                  </tr>
+                  <tr>
+                    <td class="method-cell">Running Avg entropy</td>
+                    <td>50.48</td><td>48.09</td>
+                    <td>46.16</td><td>43.99</td>
+                    <td>51.63</td><td>56.71</td>
+                    <td>53.78</td><td>55.44</td>
+                                        <td>51.12</td><td>48.78</td>
+                    <td>&mdash;</td><td>&mdash;</td>
+                  </tr>
+                  <!-- Learned Baselines -->
+                  <tr class="group-sep">
+                    <td rowspan="5" class="group-cell">Learned Baselines</td>
+                    <td class="method-cell"><em>SAFE-LSTM</em></td>
+                    <td>72.30</td><td>69.04</td>
+                    <td>75.95</td><td>70.00</td>
+                    <td>74.48</td><td>68.13</td>
+                    <td>91.26</td><td><span class="best-result">85.88</span></td>
+                    <td>70.85</td><td>56.69</td>
+                    <td>79.96</td><td>65.03</td>
+                  </tr>
+                  <tr class="ours-row">
+                    <td class="method-cell"><em>SAFE-LSTM-TD0 (Ours)</em></td>
+                    <td>71.67</td><td>65.12</td>
+                    <td>84.01</td><td>70.76</td>
+                    <td>73.83</td><td>64.25</td>
+                    <td><span class="best-result">92.03</span></td><td>85.49</td>
+                    <td><span class="best-result">79.89</span></td><td><span class="best-result">68.43</span></td>
+                    <td>88.66</td><td><span class="best-result">82.94</span></td>
+                  </tr>
+                  <tr>
+                    <td class="method-cell"><em>SAFE-MLP</em></td>
+                    <td>73.56</td><td>69.53</td>
+                    <td><span class="best-result">88.23</span></td><td><span class="best-result">83.18</span></td>
+                    <td>74.39</td><td>63.80</td>
+                    <td>79.00</td><td>68.36</td>
+                    <td>79.15</td><td>63.94</td>
+                    <td>86.33</td><td>79.75</td>
+                  </tr>
+                  <tr>
+                    <td class="method-cell"><em>SAFE-MLP-BCE</em></td>
+                    <td>72.66</td><td>64.99</td>
+                    <td>85.38</td><td>71.43</td>
+                    <td><span class="best-result">78.83</span></td><td>69.74</td>
+                    <td>91.82</td><td>85.50</td>
+                    <td>73.82</td><td>58.83</td>
+                    <td><span class="best-result">89.71</span></td><td>80.53</td>
+                  </tr>
+                  <tr class="ours-row">
+                    <td class="method-cell"><em>SAFE-MLP-TD0 (Ours)</em></td>
+                    <td>71.22</td><td>60.09</td>
+                    <td>82.33</td><td>70.64</td>
+                    <td>76.55</td><td>66.71</td>
+                    <td>90.25</td><td>84.44</td>
+                    <td>61.95</td><td>51.22</td>
+                    <td>86.57</td><td>72.07</td>
+                  </tr>
+                  <!-- TDQC -->
+                  <tr class="ours-row group-sep">
+                    <td rowspan="2" class="group-cell">TDQC</td>
+                    <td class="method-cell"><em>TDQC BCE (Ours)</em></td>
+                    <td>72.70</td><td>72.28</td>
+                    <td>69.69</td><td>67.09</td>
+                    <td>63.44</td><td>54.37</td>
+                    <td>87.67</td><td>82.53</td>
+                                        <td>59.32</td><td>53.26</td>
+                    <td>&mdash;</td><td>&mdash;</td>
+                  </tr>
+                  <tr class="ours-row">
+                    <td class="method-cell"><em>TDQC TD0 (Ours)</em></td>
+                    <td><span class="best-result">74.20</span></td><td><span class="best-result">72.72</span></td>
+                    <td>78.90</td><td>72.97</td>
+                    <td>72.30</td><td><span class="best-result">70.17</span></td>
+                    <td>87.51</td><td>83.39</td>
+                                        <td>64.19</td><td>57.37</td>
+                    <td>&mdash;</td><td>&mdash;</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <p class="fig-caption mt-1">
+              <strong>Table 2 &mdash; ROC-AUC ↑.</strong> Results on simulation and real robot experiments, averaged over 21 seeds. &ldquo;&mdash;&rdquo; indicates that the metric cannot be computed. <span class="best-result">Red bold</span> = best per column. TDQC achieves SOTA results on all benchmarks except WidowX.
+            </p>
+
+            <hr class="section-divider">
+
+            <!-- ══════════════════════════════════════════════════ FIGURES -->
+            <h2 class="section-title">4 &nbsp; Figures</h2>
+            <p>Key visualizations from the paper. Hover any card to highlight it.</p>
+
+            <div class="row g-4 mt-1">
+
+                <!-- Fig 2 + Fig 3 — full width each, stacked -->
+                <div class="col-12">
+                    <div class="fig-card">
+                        <div class="fig-img-area">
+                            <img src="figures/unified_brier_val_unseen_with_pi0fast.png" alt="Unified Brier validation unseen split (with π₀-FAST)">
+                        </div>
+                        <div class="fig-label">
+                            <div class="fig-num">Figure 1 &mdash; Brier Score — Validation (Unseen Split)</div>
+                            <div class="fig-desc">Brier Score on the <em>unseen</em> task split across all probe variants and VLA backbones (including &pi;&#x2080;-FAST). TDQC achieves the lowest calibration error, with the gap widening on out-of-distribution tasks.</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-12">
+                    <div class="fig-card">
+                        <div class="fig-img-area">
+                            <img src="figures/unified_brier_val_seen_with_pi0fast.png" alt="Unified Brier validation seen split (with π₀-FAST)">
+                        </div>
+                        <div class="fig-label">
+                            <div class="fig-num">Figure 2 &mdash; Brier Score — Validation (Seen Split)</div>
+                            <div class="fig-desc">Brier Score on the <em>seen</em> task split across all probe variants and VLA backbones (including &pi;&#x2080;-FAST). Comparing Figures 1 &amp; 2 reveals that TDQC's calibration advantage is consistent both in-distribution and out-of-distribution.</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Fig 1 — full width, after Figs 2 & 3 -->
+                <div class="col-12">
+                    <div class="fig-card">
+                        <div class="fig-img-area">
+                            <img src="figures/rollout_comparison_success_rate_all_tasks.png" alt="Rollout comparison success rate across all tasks">
+                        </div>
+                        <div class="fig-label">
+                            <div class="fig-num">Figure 3 &mdash; Rollout Success Rate Comparison</div>
+                            <div class="fig-desc">Success-rate comparison across all evaluation tasks for TDQC and baseline probes. The updated plot highlights that TDQC improves reliability over full-task aggregates, not just single trajectories.</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Fig 4 — full width -->
+                <div class="col-12">
+                    <div class="fig-card">
+                        <div class="fig-img-area" style="min-height: 180px;">
+                            <img src="figures/method_overview.png" alt="TDQC method overview diagram">
+                        </div>
+                        <div class="fig-label">
+                            <div class="fig-num">Figure 4 &mdash; TDQC System Overview</div>
+                            <div class="fig-desc">End-to-end pipeline: the VLA backbone processes image + language observations and produces actions. The frozen backbone's hidden states are fed to the SAFE probe trained with the TDQC loss. The probe outputs a real-time success probability \(\hat{p}_t\) that can trigger an abort or re-plan.</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Fig 5 — Brier vs ROC scatter, full width -->
+                <div class="col-12">
+                    <div class="fig-card">
+                        <div class="fig-img-area">
+                            <img src="figures/brier_at_stop_vs_roc_scatter.png" alt="Brier score at stop vs ROC-AUC scatter plot">
+                        </div>
+                        <div class="fig-label">
+                            <div class="fig-num">Figure 5 &mdash; Brier Score at Stop vs. ROC-AUC</div>
+                            <div class="fig-desc">Scatter plot of Brier Score at the stopping step vs. ROC-AUC across all probe variants, backbones, and benchmarks. Each point represents one configuration; TDQC variants cluster in the low-Brier / high-AUC corner, confirming that TD-based calibration simultaneously improves both discrimination and confidence quality.</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Fig 6 — Brier vs ROC per benchmark animated GIF, full width -->
+                <div class="col-12">
+                    <div class="fig-card">
+                        <div class="fig-img-area" style="background:#fff;">
+                            <img src="figures/brier_vs_roc_per_benchmark.gif" alt="Brier vs ROC per benchmark animated" style="max-width:100%; max-height:500px; object-fit:contain;">
+                        </div>
+                        <div class="fig-label">
+                            <div class="fig-num">Figure 6 &mdash; Brier vs. ROC per Benchmark (Animated)</div>
+                            <div class="fig-desc">Animated cycle through all six backbone–benchmark combinations: OpenVLA-LIBERO, OpenVLA-WidowX, &pi;&#x2080;-LIBERO, &pi;&#x2080;-FAST-LIBERO, &pi;&#x2080;-FAST-Droid, and UniVLA-LIBERO. Each frame shows the Brier Score vs. ROC-AUC trade-off for all probe variants on that setting. TDQC consistently dominates the Pareto frontier across environments.</div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <hr class="section-divider">
+
+            <!-- ═══════════════════════════════════════════════════ VIDEOS -->
+            <h2 class="section-title">5 &nbsp; Videos</h2>
+            <p>Demonstration videos organised by content type. Click a tab to switch between <strong>Method</strong> explanations and <strong>Benchmark</strong> rollouts.</p>
+
+            <!-- ─── LIBERO (Simulation) — OpenVLA ─── -->
+            <div class="subsec-tag mt-2">LIBERO (Simulation) — OpenVLA</div>
+            <p class="mb-3" style="color:#555; font-size:0.95rem;">These LIBERO rollouts compare <strong>TDQC (SAFE-LSTM-TD0)</strong> against the <strong>SAFE-LSTM cross-entropy baseline</strong> on identical trajectories, illustrating the method's advantage.</p>
+            <div class="row g-4">
+
+                <div class="col-md-6">
+                    <div class="video-card">
+                        <div class="video-area">
+                            <video controls preload="metadata" style="width:100%;display:block;">
+                                <source src="figures/videos_functional_openvla_q_learning_TDLoss_0_task3_ep25_succ1_predsucc1.mp4" type="video/mp4">
+                            </video>
+                        </div>
+                        <div class="video-label">
+                            <div class="vid-num">V1 &mdash; TDQC &mdash; Task 3 &mdash; ✅ Success &rarr; Predicted ✅ Success</div>
+                            <div class="vid-desc">TDQC (q-learning TD loss) correctly predicts a successful outcome on Task 3. The probe's \(\hat{p}_t\) rises steadily as the trajectory progresses.</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="video-card">
+                        <div class="video-area">
+                            <video controls preload="metadata" style="width:100%;display:block;">
+                                <source src="figures/videos_functional_openvla_lstm_TDLoss_0_task3_ep25_succ1_predsucc0.mp4" type="video/mp4">
+                            </video>
+                        </div>
+                        <div class="video-label">
+                            <div class="vid-num">V2 &mdash; LSTM Baseline &mdash; Task 3 &mdash; ✅ Success &rarr; Predicted ❌ Failure</div>
+                            <div class="vid-desc">The SAFE-LSTM cross-entropy baseline fails on <em>the same Task 3 rollout</em>: it predicts failure for an ultimately successful trajectory — a false negative. TDQC avoids this error.</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="video-card">
+                        <div class="video-area">
+                            <video controls preload="metadata" style="width:100%;display:block;">
+                                <source src="figures/videos_functional_openvla_q_learning_TDLoss_0_task5_ep20_succ0_predsucc0.mp4" type="video/mp4">
+                            </video>
+                        </div>
+                        <div class="video-label">
+                            <div class="vid-num">V3 &mdash; TDQC &mdash; Task 5 &mdash; ❌ Failure &rarr; Predicted ❌ Failure</div>
+                            <div class="vid-desc">TDQC correctly identifies a failed trajectory on Task 5. \(\hat{p}_t\) declines mid-trajectory, enabling timely intervention before the task terminates.</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="video-card">
+                        <div class="video-area">
+                            <video controls preload="metadata" style="width:100%;display:block;">
+                                <source src="figures/videos_functional_openvla_lstm_TDLoss_0_task5_ep20_succ0_predsucc0.mp4" type="video/mp4">
+                            </video>
+                        </div>
+                        <div class="video-label">
+                            <div class="vid-num">V4 &mdash; LSTM Baseline &mdash; Task 5 &mdash; ❌ Failure &rarr; Predicted ❌ Failure</div>
+                            <div class="vid-desc">The SAFE-LSTM cross-entropy baseline also predicts failure on Task 5, but with temporally noisy estimates. Compare with V3 to see how TDQC produces smoother, earlier divergence.</div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- ─── WidowX Real-Robot — OpenVLA ─── -->
+            <div class="subsec-tag mt-5">WidowX Real-Robot — OpenVLA</div>
+            <p class="mb-3" style="color:#555; font-size:0.95rem;">Six real-robot clips comparing <strong>TDQC</strong>, <strong>SAFE-LSTM</strong> (cross-entropy), and <strong>IndepMLP</strong> on two tasks. On Task 4 only TDQC correctly predicts success; on Task 5 the IndepMLP produces a dangerous false positive.</p>
+            <div class="row g-4">
+
+                <!-- Task 4 — Success -->
+                <div class="col-12">
+                    <p class="fw-semibold mb-2" style="color: var(--primary-dark);">Task 4 &mdash; Actual outcome: ✅ Success</p>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="video-card">
+                        <div class="video-area">
+                            <video controls preload="metadata" style="width:100%;display:block;">
+                                <source src="figures/videos_functional_openvla_widowx_v2_openvla_q_learning_TDLoss_0_task4_ep12_succ1_predsucc1.mp4" type="video/mp4">
+                            </video>
+                        </div>
+                        <div class="video-label">
+                            <div class="vid-num">V5 &mdash; TDQC &mdash; Task 4 &mdash; ✅ Success &rarr; Predicted ✅ Success</div>
+                            <div class="vid-desc">TDQC correctly predicts success on real-robot Task 4. The TD-consistent probe maintains a rising \(\hat{p}_t\) throughout the manipulation, reflecting growing confidence as each sub-goal is achieved.</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="video-card">
+                        <div class="video-area">
+                            <video controls preload="metadata" style="width:100%;display:block;">
+                                <source src="figures/videos_functional_openvla_widowx_v2_openvla_lstm_TDLoss_0_task4_ep12_succ1_predsucc0.mp4" type="video/mp4">
+                            </video>
+                        </div>
+                        <div class="video-label">
+                            <div class="vid-num">V6 &mdash; LSTM Baseline &mdash; Task 4 &mdash; ✅ Success &rarr; Predicted ❌ Failure</div>
+                            <div class="vid-desc">SAFE-LSTM cross-entropy baseline incorrectly predicts failure on the same successful rollout (false negative). Without TD supervision, the probe's estimates are not anchored to future outcomes.</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="video-card">
+                        <div class="video-area">
+                            <video controls preload="metadata" style="width:100%;display:block;">
+                                <source src="figures/videos_functional_openvla_widowx_v2_openvla_indep_regular_0_task4_ep12_succ1_predsucc0.mp4" type="video/mp4">
+                            </video>
+                        </div>
+                        <div class="video-label">
+                            <div class="vid-num">V7 &mdash; IndepMLP Baseline &mdash; Task 4 &mdash; ✅ Success &rarr; Predicted ❌ Failure</div>
+                            <div class="vid-desc">The independent MLP baseline also fails on Task 4 (false negative). Treating each step in isolation, it cannot integrate evidence across the trajectory, leading to an overly pessimistic prediction.</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Task 5 — Failure -->
+                <div class="col-12 mt-2">
+                    <p class="fw-semibold mb-2" style="color: var(--primary-dark);">Task 5 &mdash; Actual outcome: ❌ Failure</p>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="video-card">
+                        <div class="video-area">
+                            <video controls preload="metadata" style="width:100%;display:block;">
+                                <source src="figures/videos_functional_openvla_widowx_v2_openvla_q_learning_TDLoss_0_task5_ep7_succ0_predsucc0.mp4" type="video/mp4">
+                            </video>
+                        </div>
+                        <div class="video-label">
+                            <div class="vid-num">V8 &mdash; TDQC &mdash; Task 5 &mdash; ❌ Failure &rarr; Predicted ❌ Failure</div>
+                            <div class="vid-desc">TDQC correctly predicts failure on real-robot Task 5. \(\hat{p}_t\) drops smoothly ahead of task termination, providing an early warning signal that enables safe robot intervention.</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="video-card">
+                        <div class="video-area">
+                            <video controls preload="metadata" style="width:100%;display:block;">
+                                <source src="figures/videos_functional_openvla_widowx_v2_openvla_lstm_TDLoss_0_task5_ep7_succ0_predsucc0.mp4" type="video/mp4">
+                            </video>
+                        </div>
+                        <div class="video-label">
+                            <div class="vid-num">V9 &mdash; LSTM Baseline &mdash; Task 5 &mdash; ❌ Failure &rarr; Predicted ❌ Failure</div>
+                            <div class="vid-desc">SAFE-LSTM baseline also predicts failure on Task 5, but with higher per-step variance and less temporal consistency than TDQC. The noisy signal makes it harder to set a reliable threshold for intervention.</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="video-card">
+                        <div class="video-area">
+                            <video controls preload="metadata" style="width:100%;display:block;">
+                                <source src="figures/videos_functional_openvla_widowx_v2_openvla_indep_regular_0_task5_ep7_succ0_predsucc1.mp4" type="video/mp4">
+                            </video>
+                        </div>
+                        <div class="video-label">
+                            <div class="vid-num">V10 &mdash; IndepMLP Baseline &mdash; Task 5 &mdash; ❌ Failure &rarr; Predicted ✅ Success</div>
+                            <div class="vid-desc">The IndepMLP baseline produces a <strong>dangerous false positive</strong>: it predicts success throughout a clearly failing trajectory. This illustrates why per-step independent calibration is fundamentally insufficient for safe robot deployment.</div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <hr class="section-divider">
+
+            <h2 class="section-title">Citation</h2>
+            <div class="citation-box">
+@article{authors2026tdqc,<br>
+&nbsp;&nbsp;title={Temporal Difference Calibration in Sequential Tasks},<br>
+&nbsp;&nbsp;booktitle={International Conference on Machine Learning (ICML)},<br>
+&nbsp;&nbsp;year={2026}<br>
+}
+            </div>
+        </div>
+    </div>
+</div>
 
 </body>
 </html>
