@@ -942,40 +942,27 @@
                     </div>
                 </div>
 
-                <!-- Fig 4 - full width -->
-                <div class="col-12">
-                    <div class="fig-card">
-                        <div class="fig-img-area" style="min-height: 180px;">
-                            <img src="figures/method_overview.png" alt="TDQC method overview diagram">
-                        </div>
-                        <div class="fig-label">
-                            <div class="fig-num">Figure 4 &mdash; TDQC System Overview</div>
-                            <div class="fig-desc">End-to-end pipeline: the VLA backbone processes image + language observations and produces actions. The frozen backbone's hidden states are fed to the SAFE probe trained with the TDQC loss. The probe outputs a real-time success probability \(\hat{p}_t\) that can trigger an abort or re-plan.</div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Fig 5 - Brier vs ROC scatter, full width -->
+                <!-- Fig 4 - Brier vs ROC scatter, full width -->
                 <div class="col-12">
                     <div class="fig-card">
                         <div class="fig-img-area">
                             <img src="figures/brier_at_stop_vs_roc_scatter.png" alt="Brier score at stop vs ROC-AUC scatter plot">
                         </div>
                         <div class="fig-label">
-                            <div class="fig-num">Figure 5 &mdash; Brier Score at Stop vs. ROC-AUC</div>
+                            <div class="fig-num">Figure 4 &mdash; Brier Score at Stop vs. ROC-AUC</div>
                             <div class="fig-desc">Scatter plot of Brier Score at the stopping step vs. ROC-AUC across all probe variants, backbones, and benchmarks. Each point represents one configuration; TDQC variants cluster in the low-Brier / high-AUC corner, confirming that TD-based calibration simultaneously improves both discrimination and confidence quality.</div>
                         </div>
                     </div>
                 </div>
 
-                <!-- Fig 6 - Brier vs ROC per benchmark animated GIF, full width -->
+                <!-- Fig 4 - Brier vs ROC per benchmark animated GIF, full width -->
                 <div class="col-12">
                     <div class="fig-card">
                         <div class="fig-img-area" style="background:#fff;">
                             <img src="figures/brier_vs_roc_per_benchmark.gif" alt="Brier vs ROC per benchmark animated" style="max-width:100%; max-height:500px; object-fit:contain;">
                         </div>
                         <div class="fig-label">
-                            <div class="fig-num">Figure 6 &mdash; Brier vs. ROC per Benchmark (Animated)</div>
+                            <div class="fig-num">Figure 5 &mdash; Brier vs. ROC per Benchmark (Animated)</div>
                             <div class="fig-desc">Animated cycle through all six backbone–benchmark combinations: OpenVLA-LIBERO, OpenVLA-WidowX, &pi;&#x2080;-LIBERO, &pi;&#x2080;-FAST-LIBERO, &pi;&#x2080;-FAST-Droid, and UniVLA-LIBERO. Each frame shows the Brier Score vs. ROC-AUC trade-off for all probe variants on that setting. TDQC consistently dominates the Pareto frontier across environments.</div>
                         </div>
                     </div>
