@@ -169,7 +169,7 @@
             gap: 10px;
         }
         .fig-img-area svg { opacity: 0.35; flex-shrink: 0; }
-        .fig-img-area img { max-width: 100%; max-height: 260px; object-fit: contain; }
+        .fig-img-area img { max-width: 100%; max-height: 260px; object-fit: contain; cursor: zoom-in; }
         .fig-label {
             padding: 12px 16px;
             background: white;
@@ -177,6 +177,58 @@
         .fig-label .fig-num { font-weight: 700; color: var(--primary-dark); font-size: 0.88rem; text-transform: uppercase; letter-spacing: 0.5px; }
         .fig-label .fig-desc { font-size: 0.88rem; color: #555; margin-top: 3px; line-height: 1.5; font-style: italic; }
         .fig-caption { font-size: 0.9rem; color: #555; margin-top: 10px; font-style: italic; text-align: center; }
+
+        /* Figure lightbox */
+        .figure-lightbox {
+            position: fixed;
+            inset: 0;
+            background: rgba(5, 10, 18, 0.92);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 5000;
+            padding: 30px;
+            cursor: zoom-out;
+        }
+        .figure-lightbox.active { display: flex; }
+        .figure-lightbox img {
+            max-width: 96vw;
+            max-height: 92vh;
+            width: auto;
+            height: auto;
+            object-fit: contain;
+            border-radius: 10px;
+            box-shadow: 0 18px 60px rgba(0, 0, 0, 0.45);
+            cursor: default;
+        }
+        .figure-lightbox-close {
+            position: absolute;
+            top: 16px;
+            right: 20px;
+            background: rgba(255,255,255,0.12);
+            color: white;
+            border: 1px solid rgba(255,255,255,0.35);
+            border-radius: 999px;
+            width: 44px;
+            height: 44px;
+            font-size: 28px;
+            line-height: 1;
+            cursor: pointer;
+        }
+        .figure-lightbox-close:hover { background: rgba(255,255,255,0.22); }
+        .figure-lightbox-caption {
+            position: absolute;
+            left: 50%;
+            bottom: 14px;
+            transform: translateX(-50%);
+            color: #eef4fb;
+            background: rgba(0,0,0,0.35);
+            padding: 8px 12px;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            max-width: min(92vw, 920px);
+            text-align: center;
+        }
 
         /* Video cards */
         .video-card {
@@ -252,7 +304,7 @@
 
         /* Comparison card */
         .method-card {
-            border: 1px solid #dee2e6;
+            border: 2px solid var(--accent-blue);
             border-radius: 8px;
             padding: 20px;
             height: 100%;
@@ -297,6 +349,9 @@
             .fig-img-area { min-height: 160px; padding: 12px; }
             .fig-img-area img { max-height: 220px; }
             .video-tabs .nav-link { padding: 8px 12px; font-size: 0.82rem; }
+            .figure-lightbox { padding: 14px; }
+            .figure-lightbox-close { top: 10px; right: 12px; }
+            .figure-lightbox-caption { font-size: 0.82rem; bottom: 10px; }
         }
 
         /* Prevent MathJax display math from overflowing on mobile */
@@ -325,7 +380,7 @@
 <div class="hero">
     <div class="container">
         <h1>Temporal Difference Calibration in Sequential Tasks: Application to Vision-Language-Action Models</h1>
-        <p class="authors">Shelly Francis-Meretzki, Mirco Mutti, Yaniv Romano, Aviv Tamar • ICML 2026 Submission</p>
+        <p class="authors">Anonymous Authors • ICML 2026 Submission</p>
         <div class="mt-4">
             <a href="#" class="btn-custom">READ PAPER</a>
             <a href="https://anonymous.4open.science/r/safe-vla-TDQC-DC5F" class="btn-custom">VIEW ON GITHUB</a>
@@ -341,17 +396,15 @@
             <h2 class="section-title">Abstract</h2>
             <div class="abstract-box">
                 <p>
-                    Predicting whether a robot will successfully complete a manipulation task is crucial for safe and
-                    reliable deployment. Existing uncertainty calibration methods treat each time-step independently,
-                    ignoring the sequential structure of trajectories and producing poorly calibrated success
-                    predictions. We introduce <strong>Temporal-Difference Q-based Calibration (TDQC)</strong>, a
-                    post-hoc calibration framework that applies Temporal Difference (TD) learning to train a
-                    lightweight probe on top of frozen Vision-Language-Action (VLA) models. By minimizing a
-                    sequential Brier score whose risk minimizer is the policy's <em>value function</em>, TDQC
-                    produces temporally consistent, well-calibrated success probabilities across an entire
-                    trajectory. Experiments on the LIBERO, WidowX, and Franka real-robot benchmarks show consistent
-                    improvements in Brier Score and ROC-AUC over cross-entropy baselines across multiple
-                    state-of-the-art VLA backbones (OpenVLA, UniVLA, &pi;&#x2080;-FAST, and &pi;&#x2080;).
+                    Recent advances in vision-language-action (VLA) models for robotics have highlighted the importance of 
+                    reliable uncertainty quantification in sequential tasks. However, assessing and improving calibration in such settings 
+                    remains mostly unexplored, especially when only partial trajectories are observed. In this work, we formulate <strong>sequential calibration</strong>
+                    for episodic tasks, where task-success confidence is produced along an episode, while success is determined at the end of it.
+                    We introduce a sequential extension of the Brier score and show that, for binary outcomes, its risk minimizer coincides with 
+                    the VLA policy’s value function. This connection bridges uncertainty calibration and reinforcement learning, 
+                    enabling the use of temporal-difference (TD) value estimation as a principled calibration mechanism over time. 
+                    We empirically show that TD calibration improves performance relative to the state-of-the-art on simulated and real-robot data. 
+                    Interestingly, we show that when calibrated using TD, the VLA's single-step action probabilities can yield competitive uncertainty estimates, in contrast to recent findings that employed different calibration techniques.
                 </p>
             </div>
 
@@ -365,50 +418,56 @@
                 robot manipulation, combining the rich semantic understanding of large language models with
                 sensorimotor control. Despite impressive task-completion rates, deploying these models in
                 safety-critical settings requires knowing <em>how confident</em> the model is that the current
-                trajectory will succeed — and that confidence must be <strong>calibrated</strong>.
+                trajectory will succeed - and that confidence must be <strong>calibrated</strong>.
             </p>
 
             <p>
                 Standard post-hoc calibration (e.g., Platt scaling, temperature scaling) was designed for
                 i.i.d. classification. In robotics, however, observations arrive as a temporally correlated
-                sequence and the outcome label — binary task success — is revealed only at the end. This creates
-                two fundamental problems:
+                sequence and the outcome label, binary task success, is revealed only at the end. This raises a fundamental question: 
+                <em>how to reason about calibration in sequential tasks?</em>
             </p>
 
             <ul style="line-height: 2;">
-                <li><strong>Temporal inconsistency:</strong> independently calibrated per-step scores fluctuate
-                    wildly across a trajectory, giving unreliable early-warning signals.</li>
-                <li><strong>Label scarcity:</strong> only the final step carries a ground-truth label, making
-                    standard cross-entropy training extremely data-inefficient.</li>
+                <li><strong>Temporal inconsistency:</strong> the confidence in the current decision may depend on the confidence of future decisions.</li>
+                <li><strong>Label scarcity:</strong> the ground-truth label is typically delayed.</li>
             </ul>
 
             <p>
-                We address both problems with <strong>TDQC</strong>. Our key insight is that the Brier score,
-                extended to sequential prediction, decomposes into a telescoping sum of TD-like squared errors.
-                The global risk minimizer of this loss is exactly the state-value function \(V^\pi\), connecting
-                calibration theory to reinforcement learning in a principled way. TDQC is:
+                We address both problems with <strong>TDQC</strong>. Our main conceptual insight shows that, 
+                when formulating a sequential task as a partially-observable Markov decision process, 
+                we can <strong>reduce the problem of minimizing the sequential Brier score to the problem of learning a value function</strong>.
+                The global risk minimizer of this loss is exactly the state-value function \(Q^\pi\), connecting
+                calibration theory to reinforcement learning in a principled way.
+            </p>
+
+            <p>
+                <span class="badge-tdqc">TDQC</span> &nbsp; Our paper further advances the research in four key areas:
             </p>
 
             <div class="row g-3 my-3">
-                <div class="col-md-4">
+                <div class="col-md-6">
                     <div class="method-card">
-                        <h5>Post-hoc &amp; Lightweight</h5>
-                        <p class="mb-0">A small MLP or LSTM probe is trained on top of a <em>frozen</em> VLA
-                        backbone. No fine-tuning of the base model is required.</p>
+                        <h5>Sequential Calibration Framework</h5>
+                        <p class="mb-0">We provide a coherent formulation for calibration in sequential tasks, unifying recent VLA failure-detection work with the broader calibration literature.</p>
                     </div>
                 </div>
-                <div class="col-md-4">
+                <div class="col-md-6">
                     <div class="method-card highlight-card">
-                        <h5><span class="badge-tdqc">TDQC</span> &nbsp; TD-Consistent</h5>
-                        <p class="mb-0">The loss propagates supervision from future steps backwards via
-                        Temporal Difference updates, leveraging every time-step as a training signal.</p>
+                        <h5> &nbsp; RL Connection</h5>
+                        <p class="mb-0">We link sequential calibration to value prediction in reinforcement learning and derive a novel TD-based calibration method, TDQC.</p>
                     </div>
                 </div>
-                <div class="col-md-4">
+                <div class="col-md-6">
                     <div class="method-card">
-                        <h5>Model-Agnostic</h5>
-                        <p class="mb-0">Applied to OpenVLA, UniVLA, &pi;&#x2080;-FAST, and &pi;&#x2080; without any
-                        architecture changes to the VLA itself.</p>
+                        <h5>Black-Box Practicality</h5>
+                        <p class="mb-0">Using only action probabilities, TDQC matches or improves SAFE variants that require hidden-state access, which is often unavailable through APIs.</p>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="method-card">
+                        <h5>Empirical Strength</h5>
+                        <p class="mb-0">TD-based losses are essential for state-of-the-art early detection on LIBERO with OpenVLA, &pi;&#x2080;, and &pi;&#x2080;-FAST, and on a Franka real-robot dataset collected with &pi;&#x2080;-FAST.</p>
                     </div>
                 </div>
             </div>
@@ -421,26 +480,25 @@
             <h4 class="mt-4 mb-3" style="color: var(--primary-dark);">2.1 &nbsp; Problem Setting</h4>
             <p>
                 Let \(h_t\) denote the history of observations and actions up to time \(t\) in a trajectory of
-                length \(T\), and let \(y \in \{0,1\}\) denote final task success. We wish to learn a probe
+                length \(T\), and let \(y \in \{0,1\}\) denote final task success. We wish to learn a function
                 \(f_\theta : \mathcal{H} \to [0,1]\) such that \(f_\theta(h_t)\) is a calibrated estimate of
                 \(\Pr[\text{success} \mid h_t]\) at every step.
             </p>
 
             <h4 class="mt-4 mb-3" style="color: var(--primary-dark);">2.2 &nbsp; Sequential Brier Score &amp; the Value-Function Connection</h4>
             <p>
-                The standard per-step Brier score \(\mathbb{E}[(f_\theta(h_t) - y)^2]\) ignores temporal structure.
-                We instead minimize the <em>sequential</em> Brier score — the sum of squared prediction errors
+                The standard per-step Brier score \(\mathbb{E}[(f_\theta(x) - y)^2]\), where \(x\) denotes the input, ignores temporal structure.
+                We instead minimize the <em>sequential</em> Brier score - the sum of squared prediction errors
                 across all time-steps. Crucially, this loss telescopes:
             </p>
 
             <div class="math-block text-center">
                 $$\mathcal{L}_{\text{seq}}(\theta)
-                  = \mathbb{E}\!\left[\sum_{t=1}^{T}(f_\theta(h_t) - y)^2\right]$$
+                  = \mathbb{E}\!\left[\sum_{t=1}^{T}(f_\theta(h_t) - y)^2 \big| h_t\right]$$
             </div>
 
             <p>
-                Adding and subtracting consecutive predictions and completing the square yields a
-                Temporal-Difference decomposition. The unique minimizer satisfies
+                The unique minimizer satisfies
                 \(f_\theta(h_t) = \mathbb{E}[y \mid h_t]\), i.e., the policy's <strong>value function</strong>
                 \(V^\pi(h_t)\). This motivates the TDQC training objective:
             </p>
@@ -449,72 +507,61 @@
                 $$G(\theta)
                   = \sum_{t=1}^{T-1}\!\bigl(f_\theta(h_t) - f_\theta(h_{t+1})\bigr)^2
                   \;+\; \bigl(f_\theta(h_T) - y\bigr)^2$$
-                <p class="mb-0"><small><strong>TDQC Loss</strong> — TD consistency terms (left) plus a terminal supervision term (right).</small></p>
+                <p class="mb-0"><small><strong>TDQC Loss</strong> - TD consistency terms (left) plus a terminal supervision term (right).</small></p>
             </div>
 
             <p>
-                The middle terms enforce temporal consistency along the trajectory, while the terminal term
-                anchors the final prediction to the ground-truth label. Only one label per trajectory is needed.
+                The left terms enforce temporal consistency along the trajectory, while the terminal term
+                anchors the final prediction to the ground-truth label.
             </p>
 
-            <h4 class="mt-4 mb-3" style="color: var(--primary-dark);">2.3 &nbsp; SAFE Probe Architecture</h4>
+            <h4 class="mt-4 mb-3" style="color: var(--primary-dark);">2.3 &nbsp; TDQC Architecture</h4>
             <p>
-                We parameterize \(f_\theta\) as the <strong>SAFE</strong> probe — a recurrent model that consumes
+                We parameterize \(f_\theta\) as the <strong>SAFE</strong> paper - a recurrent model that consumes
                 the hidden states of the frozen VLA backbone at each step and outputs a success probability:
             </p>
             <ul style="line-height: 2;">
-                <li><strong>SAFE-MLP (BCE):</strong> A shallow MLP applied independently at each step, trained with binary cross-entropy (ablation baseline).</li>
-                <li><strong>SAFE-MLP-TD0:</strong> The same MLP trained with the TDQC loss \(G(\theta)\), isolating the effect of the TD objective on a non-recurrent model.</li>
+                <li><strong>SAFE-MLP:</strong> A shallow MLP applied independently at each step (ablation baseline). with cumulative losses.</li>
+                <li><strong>SAFE-MLP-BCE:</strong> A shallow MLP applied independently at each step (ablation baseline) with binary cross-entropy loss.</li>
                 <li><strong>SAFE-LSTM:</strong> An LSTM that processes the full history \(h_t\), enabling
                     temporally coherent predictions.</li>
                 <li><strong>SAFE-LSTM-TD0:</strong> The same LSTM trained with the full TDQC loss \(G(\theta)\)
-                    — our best-performing variant.</li>
+                    - our best-performing variant.</li>
+                <li><strong>TDQC-BCE:</strong> A sequential model that processes the action probabilities and is trained with a binary cross-entropy objective.</li>
+                <li><strong>TDQC-TD0:</strong> A sequential model that processes the action probabilities and is trained with the full TDQC loss \(G(\theta)\).</li>
             </ul>
 
             <h4 class="mt-4 mb-3" style="color: var(--primary-dark);">2.4 &nbsp; Training Procedure</h4>
             <div class="algo-box">
-                <div class="algo-header">Algorithm 1 &nbsp;—&nbsp; TDQC Training</div>
+                <div class="algo-header">Algorithm 1 &nbsp;-&nbsp; TDQC Training</div>
                 <div class="algo-io-block">
-                    <strong>Input:</strong> trajectory dataset \(\mathcal{D} = \{(h_1,\ldots,h_T,\, y)\}\);&nbsp; frozen VLA backbone<br>
-                    <strong>Output:</strong> calibrated probe \(f_\theta\)
+                    <strong>Input:</strong> policy \(\pi\), calibration dataset \(\mathcal{D}_{\text{cal}} = \{(h_T^i, y^i)\}_{i=1}^N\)
                 </div>
                 <hr class="algo-rule-top">
                 <div class="algo-body">
                     <div class="algo-line">
                         <span class="algo-lineno">1</span>
-                        <span class="algo-content">Initialize SAFE probe parameters \(\theta\) randomly</span>
+                        <span class="algo-content"><span class="kw">for</span> until convergence <span class="kw">do</span></span>
                     </div>
                     <div class="algo-line">
                         <span class="algo-lineno">2</span>
-                        <span class="algo-content"><span class="kw">for</span> each mini-batch \(B \subset \mathcal{D}\) <span class="kw">do</span></span>
+                        <span class="algo-content i1">Sample \(h_T^i\) uniformly from \(\mathcal{D}_{\text{cal}}\)</span>
                     </div>
                     <div class="algo-line">
                         <span class="algo-lineno">3</span>
-                        <span class="algo-content i1">Extract backbone features \(\phi_t\) for all \(h_t \in B\) &nbsp;<span class="algo-comment">// no gradient through backbone</span></span>
-                    </div>
-                    <div class="algo-line">
-                        <span class="algo-lineno">4</span>
-                        <span class="algo-content i1">Compute probe outputs \(\hat{p}_t = f_\theta(\phi_{1:t})\) for \(t = 1,\ldots,T\)</span>
-                    </div>
-                    <div class="algo-line">
-                        <span class="algo-lineno">5</span>
-                        <span class="algo-content i1">Compute TDQC loss:</span>
+                        <span class="algo-content i1">Compute the TD loss:</span>
                     </div>
                     <div class="algo-line">
                         <span class="algo-lineno"></span>
-                        <span class="algo-content i2">\(G(\theta) = \displaystyle\sum_{t=1}^{T-1}(\hat{p}_t - \hat{p}_{t+1})^2 \;+\; (\hat{p}_T - y)^2\)</span>
+                        <span class="algo-content i2">\(G(\theta) = \sum\limits_{t=1}^{T-1}(f_\theta(h_t^i) - f_\theta(h_{t+1}^i))^2 + (f_\theta(h_T^i) - y^i)^2\)</span>
                     </div>
                     <div class="algo-line">
-                        <span class="algo-lineno">6</span>
-                        <span class="algo-content i1">Update &nbsp;\(\theta \leftarrow \theta - \alpha\,\nabla_\theta G(\theta)\)</span>
+                        <span class="algo-lineno">4</span>
+                        <span class="algo-content i1">Update \(\theta \leftarrow \theta - \alpha\,\nabla G(\theta)\)</span>
                     </div>
                     <div class="algo-line">
-                        <span class="algo-lineno">7</span>
+                        <span class="algo-lineno">5</span>
                         <span class="algo-content"><span class="kw">end for</span></span>
-                    </div>
-                    <div class="algo-line">
-                        <span class="algo-lineno">8</span>
-                        <span class="algo-content"><span class="kw">return</span> \(f_\theta\)</span>
                     </div>
                 </div>
                 <hr class="algo-rule-bottom">
@@ -527,21 +574,20 @@
 
             <h4 class="mt-4 mb-3" style="color: var(--primary-dark);">3.1 &nbsp; Setup</h4>
             <p>
-                We evaluate on two robot manipulation benchmarks:
+                We evaluate on three robot manipulation benchmarks:
             </p>
             <ul style="line-height: 2;">
-                <li><strong>LIBERO</strong> — a suite of tabletop manipulation tasks in simulation, split into
+                <li><strong>LIBERO-10</strong> - a suite of tabletop manipulation tasks in simulation, split into
                     seen and unseen task distributions to test generalization.</li>
-                <li><strong>WidowX Real-Robot</strong> — tasks on a physical WidowX arm, evaluating real-world performance with OpenVLA.</li>
-                <li><strong>Franka Real-Robot</strong> — tasks on a physical Franka Emika arm with
-                    &pi;&#x2080;-FAST, evaluating real-world robustness.</li>
+                <li><strong>WidowX</strong> - lifting and pick-and-place tasks on a physical WidowX robot manipulator.</li>
+                <li><strong>Franka Real-Robot</strong> - pick-and-place tasks on a physical Franka Emika arm.</li>
             </ul>
             <p>
-                Across these benchmarks we probe four frozen VLA backbones:
-                <strong>OpenVLA</strong>, <strong>UniVLA</strong>, <strong>&pi;&#x2080;-FAST</strong>, and <strong>&pi;&#x2080;</strong>.
-                Calibration probes are trained only on trajectories from the <em>seen</em> split and evaluated
+                Across these benchmarks we evaluate four frozen VLA backbones:
+                <strong>OpenVLA</strong>, <strong>UniVLA</strong>,<strong>&pi;₀</strong>, and <strong>&pi;₀-FAST</strong>.
+                Calibration functions are trained only on trajectories from the <em>seen</em> split and evaluated
                 on the held-out <em>unseen</em> split to measure out-of-distribution generalization.
-                We report <strong>ROC-AUC</strong> (discrimination) and <strong>Brier Score</strong>
+                We report <strong>ROC-AUC</strong> (how well a score ranks failed rollouts above successful ones, higher is better) and <strong>Brier Score</strong>
                 (calibration quality, lower is better).
             </p>
 
@@ -858,14 +904,14 @@
 
             <div class="row g-4 mt-1">
 
-                <!-- Fig 2 + Fig 3 — full width each, stacked -->
+                <!-- Fig 2 + Fig 3 - full width each, stacked -->
                 <div class="col-12">
                     <div class="fig-card">
                         <div class="fig-img-area">
                             <img src="figures/unified_brier_val_unseen_with_pi0fast.png" alt="Unified Brier validation unseen split (with π₀-FAST)">
                         </div>
                         <div class="fig-label">
-                            <div class="fig-num">Figure 1 &mdash; Brier Score — Validation (Unseen Split)</div>
+                            <div class="fig-num">Figure 1 &mdash; Brier Score - Validation (Unseen Split)</div>
                             <div class="fig-desc">Brier Score on the <em>unseen</em> task split across all probe variants and VLA backbones (including &pi;&#x2080;-FAST). TDQC achieves the lowest calibration error, with the gap widening on out-of-distribution tasks.</div>
                         </div>
                     </div>
@@ -877,13 +923,13 @@
                             <img src="figures/unified_brier_val_seen_with_pi0fast.png" alt="Unified Brier validation seen split (with π₀-FAST)">
                         </div>
                         <div class="fig-label">
-                            <div class="fig-num">Figure 2 &mdash; Brier Score — Validation (Seen Split)</div>
+                            <div class="fig-num">Figure 2 &mdash; Brier Score - Validation (Seen Split)</div>
                             <div class="fig-desc">Brier Score on the <em>seen</em> task split across all probe variants and VLA backbones (including &pi;&#x2080;-FAST). Comparing Figures 1 &amp; 2 reveals that TDQC's calibration advantage is consistent both in-distribution and out-of-distribution.</div>
                         </div>
                     </div>
                 </div>
 
-                <!-- Fig 1 — full width, after Figs 2 & 3 -->
+                <!-- Fig 1 - full width, after Figs 2 & 3 -->
                 <div class="col-12">
                     <div class="fig-card">
                         <div class="fig-img-area">
@@ -896,7 +942,7 @@
                     </div>
                 </div>
 
-                <!-- Fig 4 — full width -->
+                <!-- Fig 4 - full width -->
                 <div class="col-12">
                     <div class="fig-card">
                         <div class="fig-img-area" style="min-height: 180px;">
@@ -909,7 +955,7 @@
                     </div>
                 </div>
 
-                <!-- Fig 5 — Brier vs ROC scatter, full width -->
+                <!-- Fig 5 - Brier vs ROC scatter, full width -->
                 <div class="col-12">
                     <div class="fig-card">
                         <div class="fig-img-area">
@@ -922,7 +968,7 @@
                     </div>
                 </div>
 
-                <!-- Fig 6 — Brier vs ROC per benchmark animated GIF, full width -->
+                <!-- Fig 6 - Brier vs ROC per benchmark animated GIF, full width -->
                 <div class="col-12">
                     <div class="fig-card">
                         <div class="fig-img-area" style="background:#fff;">
@@ -930,7 +976,7 @@
                         </div>
                         <div class="fig-label">
                             <div class="fig-num">Figure 6 &mdash; Brier vs. ROC per Benchmark (Animated)</div>
-                            <div class="fig-desc">Animated cycle through all six backbone–benchmark combinations: OpenVLA-LIBERO, OpenVLA-WidowX, UniVLA-LIBERO, &pi;&#x2080;-FAST-LIBERO, &pi;&#x2080;-FAST-Franka, and &pi;&#x2080;-LIBERO. Each frame shows the Brier Score vs. ROC-AUC trade-off for all probe variants on that setting. TDQC consistently dominates the Pareto frontier across environments.</div>
+                            <div class="fig-desc">Animated cycle through all six backbone–benchmark combinations: OpenVLA-LIBERO, OpenVLA-WidowX, &pi;&#x2080;-LIBERO, &pi;&#x2080;-FAST-LIBERO, &pi;&#x2080;-FAST-Droid, and UniVLA-LIBERO. Each frame shows the Brier Score vs. ROC-AUC trade-off for all probe variants on that setting. TDQC consistently dominates the Pareto frontier across environments.</div>
                         </div>
                     </div>
                 </div>
@@ -943,8 +989,13 @@
             <h2 class="section-title">5 &nbsp; Videos</h2>
             <p>Demonstration videos organised by content type. Click a tab to switch between <strong>Method</strong> explanations and <strong>Benchmark</strong> rollouts.</p>
 
-            <!-- ─── LIBERO (Simulation) — OpenVLA ─── -->
-            <div class="subsec-tag mt-2">LIBERO (Simulation) — OpenVLA</div>
+            <!-- ─── LIBERO (Simulation) - OpenVLA ─── -->
+            <!-- ─── Early Stopping with Conformal Prediction ─── -->
+            <h3 class="mt-2 mb-3" style="color: var(--primary-dark); font-weight:700;">Early Stopping with Conformal Prediction</h3>
+            <p class="mb-4" style="color:#555; font-size:0.95rem;">Videos demonstrating the early-stopping application of TDQC. The SAFE probe's calibrated success probabilities are thresholded via conformal prediction to trigger safe trajectory termination before task failure. Videos will be added here.</p>
+
+            <!-- ─── LIBERO (Simulation) - OpenVLA ─── -->
+            <div class="subsec-tag mt-3">LIBERO (Simulation) - OpenVLA</div>
             <p class="mb-3" style="color:#555; font-size:0.95rem;">These LIBERO rollouts compare <strong>TDQC (SAFE-LSTM-TD0)</strong> against the <strong>SAFE-LSTM cross-entropy baseline</strong> on identical trajectories, illustrating the method's advantage.</p>
             <div class="row g-4">
 
@@ -956,8 +1007,8 @@
                             </video>
                         </div>
                         <div class="video-label">
-                            <div class="vid-num">V1 &mdash; TDQC &mdash; Task 3 &mdash; ✅&rarr;✅ Correct</div>
-                            <div class="vid-desc">TDQC correctly predicts success. \(\hat{p}_t\) rises steadily throughout the trajectory.</div>
+                            <div class="vid-num">V1 &mdash; TDQC &mdash; Task 3 &mdash; ✅ Success &rarr; Predicted ✅ Success</div>
+                            <div class="vid-desc">TDQC (q-learning TD loss) correctly predicts a successful outcome on Task 3. The probe's \(\hat{p}_t\) rises steadily as the trajectory progresses.</div>
                         </div>
                     </div>
                 </div>
@@ -970,8 +1021,8 @@
                             </video>
                         </div>
                         <div class="video-label">
-                            <div class="vid-num">V2 &mdash; LSTM-BCE &mdash; Task 3 &mdash; ✅&rarr;❌ False Negative</div>
-                            <div class="vid-desc">SAFE-LSTM baseline predicts failure on the same successful rollout as V1 — a false negative that TDQC avoids.</div>
+                            <div class="vid-num">V2 &mdash; LSTM Baseline &mdash; Task 3 &mdash; ✅ Success &rarr; Predicted ❌ Failure</div>
+                            <div class="vid-desc">The SAFE-LSTM cross-entropy baseline fails on <em>the same Task 3 rollout</em>: it predicts failure for an ultimately successful trajectory - a false negative. TDQC avoids this error.</div>
                         </div>
                     </div>
                 </div>
@@ -984,8 +1035,8 @@
                             </video>
                         </div>
                         <div class="video-label">
-                            <div class="vid-num">V3 &mdash; TDQC &mdash; Task 5 &mdash; ❌&rarr;❌ Correct</div>
-                            <div class="vid-desc">TDQC detects failure early. \(\hat{p}_t\) declines mid-trajectory, enabling timely intervention.</div>
+                            <div class="vid-num">V3 &mdash; TDQC &mdash; Task 5 &mdash; ❌ Failure &rarr; Predicted ❌ Failure</div>
+                            <div class="vid-desc">TDQC correctly identifies a failed trajectory on Task 5. \(\hat{p}_t\) declines mid-trajectory, enabling timely intervention before the task terminates.</div>
                         </div>
                     </div>
                 </div>
@@ -998,20 +1049,20 @@
                             </video>
                         </div>
                         <div class="video-label">
-                            <div class="vid-num">V4 &mdash; LSTM-BCE &mdash; Task 5 &mdash; ❌&rarr;❌ Noisy</div>
-                            <div class="vid-desc">SAFE-LSTM also predicts failure, but with noisy per-step estimates. Compare with V3 for TDQC's smoother, earlier signal.</div>
+                            <div class="vid-num">V4 &mdash; LSTM Baseline &mdash; Task 5 &mdash; ❌ Failure &rarr; Predicted ❌ Failure</div>
+                            <div class="vid-desc">The SAFE-LSTM cross-entropy baseline also predicts failure on Task 5, but with temporally noisy estimates. Compare with V3 to see how TDQC produces smoother, earlier divergence.</div>
                         </div>
                     </div>
                 </div>
 
             </div>
 
-            <!-- ─── WidowX Real-Robot — OpenVLA ─── -->
-            <div class="subsec-tag mt-5">WidowX Real-Robot — OpenVLA</div>
+            <!-- ─── WidowX Real-Robot - OpenVLA ─── -->
+            <div class="subsec-tag mt-5">WidowX Real-Robot - OpenVLA</div>
             <p class="mb-3" style="color:#555; font-size:0.95rem;">Six real-robot clips comparing <strong>TDQC</strong>, <strong>SAFE-LSTM</strong> (cross-entropy), and <strong>IndepMLP</strong> on two tasks. On Task 4 only TDQC correctly predicts success; on Task 5 the IndepMLP produces a dangerous false positive.</p>
             <div class="row g-4">
 
-                <!-- Task 4 — Success -->
+                <!-- Task 4 - Success -->
                 <div class="col-12">
                     <p class="fw-semibold mb-2" style="color: var(--primary-dark);">Task 4 &mdash; Actual outcome: ✅ Success</p>
                 </div>
@@ -1024,8 +1075,8 @@
                             </video>
                         </div>
                         <div class="video-label">
-                            <div class="vid-num">V5 &mdash; TDQC &mdash; Task 4 &mdash; ✅&rarr;✅ Correct</div>
-                            <div class="vid-desc">TDQC correctly predicts success on the real robot. \(\hat{p}_t\) rises as each sub-goal is achieved.</div>
+                            <div class="vid-num">V11 &mdash; TDQC &mdash; Task 4 &mdash; ✅ Success &rarr; Predicted ✅ Success</div>
+                            <div class="vid-desc">TDQC correctly predicts success on real-robot Task 4. The TD-consistent probe maintains a rising \(\hat{p}_t\) throughout the manipulation, reflecting growing confidence as each sub-goal is achieved.</div>
                         </div>
                     </div>
                 </div>
@@ -1038,8 +1089,8 @@
                             </video>
                         </div>
                         <div class="video-label">
-                            <div class="vid-num">V6 &mdash; LSTM-BCE &mdash; Task 4 &mdash; ✅&rarr;❌ False Negative</div>
-                            <div class="vid-desc">SAFE-LSTM baseline incorrectly predicts failure on the same rollout as V5. Without TD supervision, estimates drift from future outcomes.</div>
+                            <div class="vid-num">V12 &mdash; LSTM Baseline &mdash; Task 4 &mdash; ✅ Success &rarr; Predicted ❌ Failure</div>
+                            <div class="vid-desc">SAFE-LSTM cross-entropy baseline incorrectly predicts failure on the same successful rollout (false negative). Without TD supervision, the probe's estimates are not anchored to future outcomes.</div>
                         </div>
                     </div>
                 </div>
@@ -1052,13 +1103,13 @@
                             </video>
                         </div>
                         <div class="video-label">
-                            <div class="vid-num">V7 &mdash; IndepMLP &mdash; Task 4 &mdash; ✅&rarr;❌ False Negative</div>
-                            <div class="vid-desc">IndepMLP baseline also fails on Task 4. Per-step independence prevents evidence accumulation, yielding an overly pessimistic prediction.</div>
+                            <div class="vid-num">V13 &mdash; IndepMLP Baseline &mdash; Task 4 &mdash; ✅ Success &rarr; Predicted ❌ Failure</div>
+                            <div class="vid-desc">The independent MLP baseline also fails on Task 4 (false negative). Treating each step in isolation, it cannot integrate evidence across the trajectory, leading to an overly pessimistic prediction.</div>
                         </div>
                     </div>
                 </div>
 
-                <!-- Task 5 — Failure -->
+                <!-- Task 5 - Failure -->
                 <div class="col-12 mt-2">
                     <p class="fw-semibold mb-2" style="color: var(--primary-dark);">Task 5 &mdash; Actual outcome: ❌ Failure</p>
                 </div>
@@ -1071,8 +1122,8 @@
                             </video>
                         </div>
                         <div class="video-label">
-                            <div class="vid-num">V8 &mdash; TDQC &mdash; Task 5 &mdash; ❌&rarr;❌ Correct</div>
-                            <div class="vid-desc">TDQC predicts failure early on real robot Task 5. \(\hat{p}_t\) drops smoothly ahead of termination, enabling safe intervention.</div>
+                            <div class="vid-num">V14 &mdash; TDQC &mdash; Task 5 &mdash; ❌ Failure &rarr; Predicted ❌ Failure</div>
+                            <div class="vid-desc">TDQC correctly predicts failure on real-robot Task 5. \(\hat{p}_t\) drops smoothly ahead of task termination, providing an early warning signal that enables safe robot intervention.</div>
                         </div>
                     </div>
                 </div>
@@ -1085,8 +1136,8 @@
                             </video>
                         </div>
                         <div class="video-label">
-                            <div class="vid-num">V9 &mdash; LSTM-BCE &mdash; Task 5 &mdash; ❌&rarr;❌ Noisy</div>
-                            <div class="vid-desc">SAFE-LSTM also predicts failure, but with high per-step variance. The noisy signal makes intervention thresholds unreliable.</div>
+                            <div class="vid-num">V15 &mdash; LSTM Baseline &mdash; Task 5 &mdash; ❌ Failure &rarr; Predicted ❌ Failure</div>
+                            <div class="vid-desc">SAFE-LSTM baseline also predicts failure on Task 5, but with higher per-step variance and less temporal consistency than TDQC. The noisy signal makes it harder to set a reliable threshold for intervention.</div>
                         </div>
                     </div>
                 </div>
@@ -1099,8 +1150,110 @@
                             </video>
                         </div>
                         <div class="video-label">
-                            <div class="vid-num">V10 &mdash; IndepMLP &mdash; Task 5 &mdash; ❌&rarr;✅ False Positive</div>
-                            <div class="vid-desc"><strong>Dangerous false positive:</strong> IndepMLP predicts success on a clearly failing trajectory — illustrating why per-step calibration is insufficient for safe deployment.</div>
+                            <div class="vid-num">V16 &mdash; IndepMLP Baseline &mdash; Task 5 &mdash; ❌ Failure &rarr; Predicted ✅ Success</div>
+                            <div class="vid-desc">The IndepMLP baseline produces a <strong>dangerous false positive</strong>: it predicts success throughout a clearly failing trajectory. This illustrates why per-step independent calibration is fundamentally insufficient for safe robot deployment.</div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- ─── Q-value Guided Action Selection ─── -->
+            <h3 class="mt-5 mb-3" style="color: var(--primary-dark); font-weight:700;">Q-value Guided Action Selection</h3>
+            <p class="mb-3" style="color:#555; font-size:0.95rem;">Rollouts comparing different Q-value guided action selection strategies (grid sampling vs. entropy-based baseline) on Task 3 (success) and Task 9 (failure).</p>
+
+            <div class="row g-4">
+
+                <!-- Task 3 - Success -->
+                <div class="col-12">
+                    <p class="fw-semibold mb-2" style="color: var(--primary-dark);">Task 3 &mdash; Actual outcome: ✅ Success</p>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="video-card">
+                        <div class="video-area">
+                            <video controls preload="metadata" style="width:100%;display:block;">
+                                <source src="figures/rollouts_baseline_old_task3_ep7_succ1_predsucc1.mp4" type="video/mp4">
+                            </video>
+                        </div>
+                        <div class="video-label">
+                            <div class="vid-num">V17 &mdash; Baseline (old) &mdash; Task 3 &mdash; ✅ Success &rarr; Predicted ✅ Success</div>
+                            <div class="vid-desc">The old baseline correctly predicts success on Task 3, episode 7.</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="video-card">
+                        <div class="video-area">
+                            <video controls preload="metadata" style="width:100%;display:block;">
+                                <source src="figures/rollouts_grid_n10_temp1.5_task3_ep7_succ1_predsucc1.mp4" type="video/mp4">
+                            </video>
+                        </div>
+                        <div class="video-label">
+                            <div class="vid-num">V18 &mdash; Grid (n=10, T=1.5) &mdash; Task 3 &mdash; ✅ Success &rarr; Predicted ✅ Success</div>
+                            <div class="vid-desc">Grid-based action selection (10 candidates, temperature 1.5) correctly predicts success on Task 3.</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="video-card">
+                        <div class="video-area">
+                            <video controls preload="metadata" style="width:100%;display:block;">
+                                <source src="figures/rollouts_grid_n10_temp1.5_thresh0.35_task3_ep7_succ1_predsucc0.mp4" type="video/mp4">
+                            </video>
+                        </div>
+                        <div class="video-label">
+                            <div class="vid-num">V19 &mdash; Grid (thresh=0.35) &mdash; Task 3 &mdash; ✅ Success &rarr; Predicted ❌ Failure</div>
+                            <div class="vid-desc">Grid selection with threshold 0.35 incorrectly predicts failure on a successful Task 3 rollout (false negative). The aggressive threshold causes over-pessimism.</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Task 9 - Failure -->
+                <div class="col-12 mt-2">
+                    <p class="fw-semibold mb-2" style="color: var(--primary-dark);">Task 9 &mdash; Actual outcome: ❌ Failure</p>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="video-card">
+                        <div class="video-area">
+                            <video controls preload="metadata" style="width:100%;display:block;">
+                                <source src="figures/rollouts_baseline_task9_ep44_succ0_predsucc0.mp4" type="video/mp4">
+                            </video>
+                        </div>
+                        <div class="video-label">
+                            <div class="vid-num">V20 &mdash; Baseline &mdash; Task 9 &mdash; ❌ Failure &rarr; Predicted ❌ Failure</div>
+                            <div class="vid-desc">The baseline correctly predicts failure on Task 9, episode 44.</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="video-card">
+                        <div class="video-area">
+                            <video controls preload="metadata" style="width:100%;display:block;">
+                                <source src="figures/rollouts_grid_n10_temp1.5_task9_ep44_succ0_predsucc0.mp4" type="video/mp4">
+                            </video>
+                        </div>
+                        <div class="video-label">
+                            <div class="vid-num">V21 &mdash; Grid (n=10, T=1.5) &mdash; Task 9 &mdash; ❌ Failure &rarr; Predicted ❌ Failure</div>
+                            <div class="vid-desc">Grid-based action selection correctly predicts failure on Task 9.</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="video-card">
+                        <div class="video-area">
+                            <video controls preload="metadata" style="width:100%;display:block;">
+                                <source src="figures/rollouts_grid_n10_temp1.5_probs_ent_task9_ep44_succ0_predsucc1.mp4" type="video/mp4">
+                            </video>
+                        </div>
+                        <div class="video-label">
+                            <div class="vid-num">V22 &mdash; Grid (entropy) &mdash; Task 9 &mdash; ❌ Failure &rarr; Predicted ✅ Success</div>
+                            <div class="vid-desc">The entropy-based grid variant produces a <strong>dangerous false positive</strong>: it predicts success on a clearly failing Task 9 trajectory, illustrating the pitfall of entropy-only selection criteria.</div>
                         </div>
                     </div>
                 </div>
@@ -1111,9 +1264,8 @@
 
             <h2 class="section-title">Citation</h2>
             <div class="citation-box">
-@inproceedings{authors2026tdqc,<br>
-&nbsp;&nbsp;title={Temporal Difference Calibration in Sequential Tasks: Application to Vision-Language-Action Models},<br>
-&nbsp;&nbsp;author={Shelly Francis-Meretzki and Mirco Mutti and Yaniv Romano and Aviv Tamar},<br>
+@article{authors2026tdqc,<br>
+&nbsp;&nbsp;title={Temporal Difference Calibration in Sequential Tasks},<br>
 &nbsp;&nbsp;booktitle={International Conference on Machine Learning (ICML)},<br>
 &nbsp;&nbsp;year={2026}<br>
 }
@@ -1121,6 +1273,87 @@
         </div>
     </div>
 </div>
+
+<div class="figure-lightbox" id="figureLightbox" role="dialog" aria-modal="true" aria-hidden="true" aria-label="Fullscreen figure viewer">
+    <button class="figure-lightbox-close" id="figureLightboxClose" aria-label="Close fullscreen figure">&times;</button>
+    <img id="figureLightboxImage" src="" alt="">
+    <div class="figure-lightbox-caption" id="figureLightboxCaption"></div>
+</div>
+
+<script>
+    (function () {
+        const figureImages = document.querySelectorAll('.fig-img-area img');
+        const lightbox = document.getElementById('figureLightbox');
+        const lightboxImage = document.getElementById('figureLightboxImage');
+        const lightboxCaption = document.getElementById('figureLightboxCaption');
+        const closeButton = document.getElementById('figureLightboxClose');
+
+        if (!figureImages.length || !lightbox || !lightboxImage || !lightboxCaption || !closeButton) {
+            return;
+        }
+
+        let scrollPosition = 0;
+
+        const openLightbox = function (imageEl) {
+            scrollPosition = window.scrollY;
+            lightboxImage.src = imageEl.src;
+            lightboxImage.alt = imageEl.alt || 'Figure';
+            lightboxCaption.textContent = imageEl.alt || '';
+            lightbox.classList.add('active');
+            lightbox.setAttribute('aria-hidden', 'false');
+            document.body.style.overflow = 'hidden';
+            if (lightbox.requestFullscreen) {
+                lightbox.requestFullscreen().catch(function () {
+                    /* Fall back to viewport lightbox if fullscreen API is denied. */
+                });
+            }
+        };
+
+        const closeLightbox = function () {
+            lightbox.classList.remove('active');
+            lightbox.setAttribute('aria-hidden', 'true');
+            lightboxImage.src = '';
+            document.body.style.overflow = '';
+            if (document.fullscreenElement && document.exitFullscreen) {
+                document.exitFullscreen().catch(function () {
+                    /* No-op: exiting fullscreen can fail on some browsers/states. */
+                });
+            }
+            window.scrollTo(0, scrollPosition);
+        };
+
+        figureImages.forEach(function (img) {
+            img.setAttribute('tabindex', '0');
+            img.setAttribute('role', 'button');
+            img.setAttribute('aria-label', (img.alt || 'Figure') + ' (open fullscreen)');
+
+            img.addEventListener('click', function () {
+                openLightbox(img);
+            });
+
+            img.addEventListener('keydown', function (event) {
+                if (event.key === 'Enter' || event.key === ' ') {
+                    event.preventDefault();
+                    openLightbox(img);
+                }
+            });
+        });
+
+        closeButton.addEventListener('click', closeLightbox);
+
+        lightbox.addEventListener('click', function (event) {
+            if (event.target === lightbox) {
+                closeLightbox();
+            }
+        });
+
+        document.addEventListener('keydown', function (event) {
+            if (event.key === 'Escape' && lightbox.classList.contains('active')) {
+                closeLightbox();
+            }
+        });
+    })();
+</script>
 
 </body>
 </html>
