@@ -933,7 +933,7 @@
                 <div class="col-12">
                     <div class="fig-card">
                         <div class="fig-img-area">
-                            <img src="figures/rollout_comparison_success_rate_all_tasks.png" alt="Rollout comparison success rate across all tasks">
+                            <img src="figures/beam_search_expr_compute_vs_success_all_tasks.png" alt="Rollout comparison success rate across all tasks">
                         </div>
                         <div class="fig-label">
                             <div class="fig-num">Figure 3 &mdash; Rollout Success Rate Comparison</div>
@@ -1145,9 +1145,9 @@
 
             </div>
 
-            <!-- ─── Q-value Guided Action Selection ─── -->
-            <h3 class="mt-5 mb-3" style="color: var(--primary-dark); font-weight:700;">Q-value Guided Action Selection</h3>
-            <p class="mb-3" style="color:#555; font-size:0.95rem;">Rollouts comparing different Q-value guided action selection strategies (grid sampling vs. entropy-based baseline) on Task 3 (success) and Task 9 (failure).</p>
+            <!-- ─── Q-value Guided Action Search ─── -->
+            <h3 class="mt-5 mb-3" style="color: var(--primary-dark); font-weight:700;">Q-value Guided Action Search</h3>
+            <p class="mb-3" style="color:#555; font-size:0.95rem;">Rollouts comparing different Q-value guided action search strategies (grid sampling vs. entropy-based baseline) on Task 3 (success) and Task 9 (failure).</p>
 
             <div class="row g-4">
 
@@ -1160,7 +1160,7 @@
                     <div class="video-card">
                         <div class="video-area">
                             <video controls preload="metadata" style="width:100%;display:block;">
-                                <source src="figures/rollouts_baseline_old_task3_ep7_succ1_predsucc1.mp4" type="video/mp4">
+                                <source src="figures/rollouts_baseline_old_task3_ep14_succ0_predsucc0.mp4" type="video/mp4">
                             </video>
                         </div>
                         <div class="video-label">
@@ -1174,7 +1174,7 @@
                     <div class="video-card">
                         <div class="video-area">
                             <video controls preload="metadata" style="width:100%;display:block;">
-                                <source src="figures/rollouts_grid_n10_temp1.5_task3_ep7_succ1_predsucc1.mp4" type="video/mp4">
+                                <source src="figures/rollouts_grid_n10_temp1.5_task3_ep14_succ1_predsucc1.mp4" type="video/mp4">
                             </video>
                         </div>
                         <div class="video-label">
@@ -1184,16 +1184,46 @@
                     </div>
                 </div>
 
+                <div class="w-100"></div>
+
                 <div class="col-md-4">
                     <div class="video-card">
                         <div class="video-area">
                             <video controls preload="metadata" style="width:100%;display:block;">
-                                <source src="figures/rollouts_grid_n10_temp1.5_thresh0.35_task3_ep7_succ1_predsucc0.mp4" type="video/mp4">
+                                <source src="figures/rollouts_grid_n10_temp1.5_thresh0.35_task3_ep14_succ0_predsucc0.mp4" type="video/mp4">
                             </video>
                         </div>
                         <div class="video-label">
                             <div class="vid-num">V19 &mdash; Grid (thresh=0.35) &mdash; Task 3 &mdash; ✅ Success &rarr; Predicted ❌ Failure</div>
                             <div class="vid-desc">Grid selection with threshold 0.35 incorrectly predicts failure on a successful Task 3 rollout (false negative). The aggressive threshold causes over-pessimism.</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="video-card">
+                        <div class="video-area">
+                            <video controls preload="metadata" style="width:100%;display:block;">
+                                <source src="figures/rollouts_grid_n10_temp1.5_probs_ent_task3_ep14_succ1_predsucc1.mp4" type="video/mp4">
+                            </video>
+                        </div>
+                        <div class="video-label">
+                            <div class="vid-num">V20 &mdash; Grid (probs+entropy) &mdash; Task 3 &mdash; ✅ Success &rarr; Predicted ✅ Success</div>
+                            <div class="vid-desc">Grid selection with probability-entropy scoring correctly predicts success on Task 3.</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="video-card">
+                        <div class="video-area">
+                            <video controls preload="metadata" style="width:100%;display:block;">
+                                <source src="figures/rollouts_grid_n10_temp1.5_BCE_task3_ep14_succ1_predsucc0.mp4" type="video/mp4">
+                            </video>
+                        </div>
+                        <div class="video-label">
+                            <div class="vid-num">V21 &mdash; Grid (BCE) &mdash; Task 3 &mdash; ✅ Success &rarr; Predicted ❌ Failure</div>
+                            <div class="vid-desc">The BCE-based grid variant predicts failure on this successful Task 3 rollout.</div>
                         </div>
                     </div>
                 </div>
@@ -1207,11 +1237,11 @@
                     <div class="video-card">
                         <div class="video-area">
                             <video controls preload="metadata" style="width:100%;display:block;">
-                                <source src="figures/rollouts_baseline_task9_ep44_succ0_predsucc0.mp4" type="video/mp4">
+                                <source src="figures/rollouts_baseline_old_task9_ep11_succ1_predsucc1.mp4" type="video/mp4">
                             </video>
                         </div>
                         <div class="video-label">
-                            <div class="vid-num">V20 &mdash; Baseline &mdash; Task 9 &mdash; ❌ Failure &rarr; Predicted ❌ Failure</div>
+                            <div class="vid-num">V22 &mdash; Baseline &mdash; Task 9 &mdash; ❌ Failure &rarr; Predicted ❌ Failure</div>
                             <div class="vid-desc">The baseline correctly predicts failure on Task 9, episode 44.</div>
                         </div>
                     </div>
@@ -1221,12 +1251,28 @@
                     <div class="video-card">
                         <div class="video-area">
                             <video controls preload="metadata" style="width:100%;display:block;">
-                                <source src="figures/rollouts_grid_n10_temp1.5_task9_ep44_succ0_predsucc0.mp4" type="video/mp4">
+                                <source src="figures/rollouts_grid_n10_temp1.5_task9_ep11_succ1_predsucc1.mp4" type="video/mp4">
                             </video>
                         </div>
                         <div class="video-label">
-                            <div class="vid-num">V21 &mdash; Grid (n=10, T=1.5) &mdash; Task 9 &mdash; ❌ Failure &rarr; Predicted ❌ Failure</div>
+                            <div class="vid-num">V23 &mdash; Grid (n=10, T=1.5) &mdash; Task 9 &mdash; ❌ Failure &rarr; Predicted ❌ Failure</div>
                             <div class="vid-desc">Grid-based action selection correctly predicts failure on Task 9.</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="w-100"></div>
+
+                <div class="col-md-4">
+                    <div class="video-card">
+                        <div class="video-area">
+                            <video controls preload="metadata" style="width:100%;display:block;">
+                                <source src="figures/rollouts_grid_n10_temp1.5_thresh0.35_task9_ep11_succ1_predsucc0.mp4" type="video/mp4">
+                            </video>
+                        </div>
+                        <div class="video-label">
+                            <div class="vid-num">V24 &mdash; Grid (thresh=0.35) &mdash; Task 9 &mdash; ❌ Failure &rarr; Predicted ❌ Failure</div>
+                            <div class="vid-desc">Grid selection with threshold 0.35 is more conservative and flags potential failure earlier.</div>
                         </div>
                     </div>
                 </div>
@@ -1235,12 +1281,26 @@
                     <div class="video-card">
                         <div class="video-area">
                             <video controls preload="metadata" style="width:100%;display:block;">
-                                <source src="figures/rollouts_grid_n10_temp1.5_probs_ent_task9_ep44_succ0_predsucc1.mp4" type="video/mp4">
+                                <source src="figures/rollouts_grid_n10_temp1.5_probs_ent_task9_ep11_succ0_predsucc1.mp4" type="video/mp4">
                             </video>
                         </div>
                         <div class="video-label">
-                            <div class="vid-num">V22 &mdash; Grid (entropy) &mdash; Task 9 &mdash; ❌ Failure &rarr; Predicted ✅ Success</div>
+                            <div class="vid-num">V25 &mdash; Grid (probs+entropy) &mdash; Task 9 &mdash; ❌ Failure &rarr; Predicted ✅ Success</div>
                             <div class="vid-desc">The entropy-based grid variant produces a <strong>dangerous false positive</strong>: it predicts success on a clearly failing Task 9 trajectory, illustrating the pitfall of entropy-only selection criteria.</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="video-card">
+                        <div class="video-area">
+                            <video controls preload="metadata" style="width:100%;display:block;">
+                                <source src="figures/rollouts_grid_n10_temp1.5_BCE_task9_ep11_succ0_predsucc1.mp4" type="video/mp4">
+                            </video>
+                        </div>
+                        <div class="video-label">
+                            <div class="vid-num">V26 &mdash; Grid (BCE) &mdash; Task 9 &mdash; ❌ Failure &rarr; Predicted ✅ Success</div>
+                            <div class="vid-desc">The BCE-based grid variant also produces a false positive on this failing Task 9 rollout.</div>
                         </div>
                     </div>
                 </div>
