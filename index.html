@@ -442,7 +442,7 @@
             </p>
 
             <p>
-                <span class="badge-tdqc">TDQC</span> &nbsp; Our paper further advances the research in four key areas:
+                <span class="badge-tdqc">TDQC</span> &nbsp; Our paper further advances the research in five key areas:
             </p>
 
             <div class="row g-3 my-3">
@@ -468,6 +468,12 @@
                     <div class="method-card">
                         <h5>Empirical Strength</h5>
                         <p class="mb-0">TD-based losses are essential for state-of-the-art early detection on LIBERO with OpenVLA, &pi;&#x2080;, and &pi;&#x2080;-FAST, and on a Franka real-robot dataset collected with &pi;&#x2080;-FAST.</p>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="method-card">
+                        <h5>Policy Improvement as a By-Product</h5>
+                        <p class="mb-0">The TDQC value predictor can guide action selection within a set of actions sampled from the policy, yielding a simple recipe that brings a <strong>15% increase in success rate</strong> of OpenVLA on the LIBERO benchmark.</p>
                     </div>
                 </div>
             </div>
@@ -677,8 +683,8 @@
                   </tr>
                   <!-- Learned Baselines -->
                   <tr class="group-sep">
-                    <td rowspan="4" class="group-cell">Learned Baselines</td>
-                    <td class="method-cell"><em>SAFE-LSTM</em></td>
+                    <td rowspan="4" class="group-cell">Learned Baselines<br>(white-box)</td>
+                    <td class="method-cell"><em>SAFE-RNN</em></td>
                     <td>0.204</td><td>0.255</td>
                     <td>0.169</td><td>0.213</td>
                     <td>0.124</td><td>0.162</td>
@@ -687,7 +693,7 @@
                     <td>0.123</td><td>0.172</td>
                   </tr>
                   <tr class="ours-row">
-                    <td class="method-cell"><em>SAFE-LSTM-TD0 (Ours)</em></td>
+                    <td class="method-cell"><em>SAFE-RNN-TDQC (Ours)</em></td>
                     <td>0.197</td><td>0.218</td>
                     <td><span class="best-result">0.096</span></td><td><span class="best-result">0.153</span></td>
                     <td><span class="best-result">0.064</span></td><td><span class="best-result">0.100</span></td>
@@ -705,7 +711,7 @@
                     <td>0.075</td><td>0.137</td>
                   </tr>
                   <tr class="ours-row">
-                    <td class="method-cell"><em>SAFE-MLP-TD0 (Ours)</em></td>
+                    <td class="method-cell"><em>SAFE-MLP-TDQC (Ours)</em></td>
                     <td>0.195</td><td>0.229</td>
                     <td>0.130</td><td>0.169</td>
                     <td>0.066</td><td>0.131</td>
@@ -715,8 +721,8 @@
                   </tr>
                   <!-- TDQC -->
                   <tr class="ours-row group-sep">
-                    <td rowspan="2" class="group-cell">TDQC</td>
-                    <td class="method-cell"><em>TDQC-BCE (Ours)</em></td>
+                    <td rowspan="2" class="group-cell">TDQC (black box)</td>
+                    <td class="method-cell"><em>RNN-BCE (Ours)</em></td>
                     <td>0.199</td><td>0.206</td>
                     <td>0.301</td><td>0.344</td>
                     <td>0.138</td><td>0.152</td>
@@ -725,7 +731,7 @@
                     <td>&mdash;</td><td>&mdash;</td>
                   </tr>
                   <tr class="ours-row">
-                    <td class="method-cell"><em>TDQC-TD0 (Ours)</em></td>
+                    <td class="method-cell"><em>RNN-TDQC (Ours)</em></td>
                     <td><span class="best-result">0.191</span></td><td><span class="best-result">0.197</span></td>
                     <td>0.156</td><td>0.192</td>
                     <td>0.100</td><td>0.107</td>
@@ -824,8 +830,8 @@
                   </tr>
                   <!-- Learned Baselines -->
                   <tr class="group-sep">
-                    <td rowspan="5" class="group-cell">Learned Baselines</td>
-                    <td class="method-cell"><em>SAFE-LSTM</em></td>
+                    <td rowspan="5" class="group-cell">Learned Baselines<br>(white-box)</td>
+                    <td class="method-cell"><em>SAFE-RNN</em></td>
                     <td>72.30</td><td>69.04</td>
                     <td>75.95</td><td>70.00</td>
                     <td>74.48</td><td>68.13</td>
@@ -834,7 +840,7 @@
                     <td>79.96</td><td>65.03</td>
                   </tr>
                   <tr class="ours-row">
-                    <td class="method-cell"><em>SAFE-LSTM-TD0 (Ours)</em></td>
+                    <td class="method-cell"><em>SAFE-RNN-TDQC (Ours)</em></td>
                     <td>71.67</td><td>65.12</td>
                     <td>84.01</td><td>70.76</td>
                     <td>73.83</td><td>64.25</td>
@@ -861,7 +867,7 @@
                     <td><span class="best-result">89.71</span></td><td>80.53</td>
                   </tr>
                   <tr class="ours-row">
-                    <td class="method-cell"><em>SAFE-MLP-TD0 (Ours)</em></td>
+                    <td class="method-cell"><em>SAFE-MLP-TDQC (Ours)</em></td>
                     <td>71.22</td><td>60.09</td>
                     <td>82.33</td><td>70.64</td>
                     <td>76.55</td><td>66.71</td>
@@ -869,10 +875,10 @@
                     <td>61.95</td><td>51.22</td>
                     <td>86.57</td><td>72.07</td>
                   </tr>
-                  <!-- TDQC -->
+                  <!-- TDQC (black box) -->
                   <tr class="ours-row group-sep">
-                    <td rowspan="2" class="group-cell">TDQC</td>
-                    <td class="method-cell"><em>TDQC BCE (Ours)</em></td>
+                    <td rowspan="2" class="group-cell">TDQC (black box)</td>
+                    <td class="method-cell"><em>RNN-BCE (Ours)</em></td>
                     <td>72.70</td><td>72.28</td>
                     <td>69.69</td><td>67.09</td>
                     <td>63.44</td><td>54.37</td>
@@ -881,7 +887,7 @@
                     <td>&mdash;</td><td>&mdash;</td>
                   </tr>
                   <tr class="ours-row">
-                    <td class="method-cell"><em>TDQC TD0 (Ours)</em></td>
+                    <td class="method-cell"><em>RNN-TDQC (Ours)</em></td>
                     <td><span class="best-result">74.20</span></td><td><span class="best-result">72.72</span></td>
                     <td>78.90</td><td>72.97</td>
                     <td>72.30</td><td><span class="best-result">70.17</span></td>
