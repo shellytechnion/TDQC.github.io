@@ -53,8 +53,7 @@
             max-width: 1100px; margin: 0 auto; padding: 0 24px;
             display: flex; align-items: center; justify-content: space-between; height: 52px;
         }
-        .site-nav-brand { font-weight: 700; font-size: 0.95rem; color: #fff; letter-spacing: 0.3px; }
-        .site-nav-brand span { color: var(--blue-mid); }
+        .site-nav-brand { font-weight: 700; font-size: 0.95rem; color: var(--blue-mid); letter-spacing: 0.3px; }
         .site-nav-links { display: flex; gap: 2px; list-style: none; margin: 0; padding: 0; }
         .site-nav-links a {
             color: rgba(255,255,255,0.7); font-size: 0.82rem; font-weight: 500;
@@ -85,7 +84,11 @@
             font-size: clamp(1.55rem, 4vw, 2.55rem); font-weight: 700; color: #fff;
             line-height: 1.25; margin-bottom: 20px; letter-spacing: -0.02em;
         }
-        .hero-authors { color: rgba(255,255,255,0.55); font-size: 0.92rem; margin-bottom: 36px; }
+        .hero-authors { color: rgba(255,255,255,0.88); font-size: 0.97rem; margin-bottom: 6px; }
+        .hero-authors a { color: rgba(255,255,255,0.88); text-decoration: none; }
+        .hero-authors a:hover { color: #fff; text-decoration: underline; }
+        .hero-equal { font-size: 0.72rem; color: rgba(255,255,255,0.45); vertical-align: super; }
+        .hero-affil { color: rgba(255,255,255,0.45); font-size: 0.82rem; margin-bottom: 32px; letter-spacing: 0.1px; }
         .hero-buttons { display: flex; flex-wrap: wrap; gap: 12px; justify-content: center; }
         .btn-hero {
             display: inline-flex; align-items: center; gap: 8px;
@@ -392,7 +395,7 @@
 <!-- ══ NAV ══════════════════════════════════════════════════════════════════ -->
 <nav class="site-nav" role="navigation" aria-label="Site navigation">
     <div class="site-nav-inner">
-        <span class="site-nav-brand"><span>TD</span>QC</span>
+        <span class="site-nav-brand">TDQC</span>
         <ul class="site-nav-links">
             <li><a href="#abstract">Abstract</a></li>
             <li><a href="#method">Method</a></li>
@@ -407,9 +410,15 @@
 <!-- ══ HERO ══════════════════════════════════════════════════════════════════ -->
 <section class="hero" id="top">
     <div class="hero-inner">
-        <div class="venue-badge">ICML 2026 &nbsp;·&nbsp; Anonymous Submission</div>
+        <div class="venue-badge">Under Review</div>
         <h1>Temporal Difference Calibration in Sequential Tasks:<br>Application to Vision-Language-Action Models</h1>
-        <p class="hero-authors">Anonymous Authors</p>
+        <p class="hero-authors">
+            <a href="mailto:shellyfra@campus.technion.ac.il">Shelly Francis-Meretzki</a><span class="hero-equal">*</span>&ensp;
+            Mirco Mutti&ensp;
+            Yaniv Romano&ensp;
+            Aviv Tamar
+        </p>
+        <p class="hero-affil">Technion &mdash; Israel Institute of Technology</p>
         <div class="hero-buttons">
             <a href="#" class="btn-hero btn-hero-primary">
                 <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
@@ -540,7 +549,7 @@
                 $$G(\theta)
                   = \sum_{t=1}^{T-1}\!\bigl(f_\theta(h_t) - f_\theta(h_{t+1})\bigr)^2
                   \;+\; \bigl(f_\theta(h_T) - y\bigr)^2$$
-                <p class="math-label">TDQC Loss — TD consistency terms (left) enforce temporal coherence; the terminal term (right) anchors the final prediction to the ground-truth label.</p>
+                <p class="math-label">TD-0 Loss in sequential settings — TD consistency terms (left) enforce temporal coherence; the terminal term (right) anchors the final prediction to the ground-truth label.</p>
             </div>
         </div>
 
@@ -747,9 +756,9 @@
                 <td>0.210</td><td>0.229</td>
                 <td>0.068</td><td>0.128</td>
               </tr>
-              <tr class="ours-row group-sep">
-                <td rowspan="2" class="group-cell">TDQC (black-box)</td>
-                <td class="method-cell"><em>RNN-BCE</em> <span class="badge-ours">Ours</span></td>
+              <tr class="group-sep">
+                <td rowspan="2" class="group-cell">Learned Baselines<br>(black-box)</td>
+                <td class="method-cell"><em>RNN-BCE</em></td>
                 <td>0.199</td><td>0.206</td>
                 <td>0.301</td><td>0.344</td>
                 <td>0.138</td><td>0.152</td>
@@ -905,9 +914,9 @@
                 <td>61.95</td><td>51.22</td>
                 <td>86.57</td><td>72.07</td>
               </tr>
-              <tr class="ours-row group-sep">
+              <tr class="group-sep">
                 <td rowspan="2" class="group-cell">Learned Baselines<br>(black-box)</td>
-                <td class="method-cell"><em>RNN-BCE</em> <span class="badge-ours">Ours</span></td>
+                <td class="method-cell"><em>RNN-BCE</em></td>
                 <td>72.70</td><td>72.28</td>
                 <td>69.69</td><td>67.09</td>
                 <td>63.44</td><td>54.37</td>
@@ -1244,7 +1253,7 @@
 <!-- ══ FOOTER ══════════════════════════════════════════════════════════════════ -->
 <footer class="site-footer">
     <p style="margin:0;">
-        TDQC &mdash; ICML 2026 Submission &mdash; Anonymous Authors &nbsp;·&nbsp;
+        TDQC &mdash; Under Review &mdash; Francis-Meretzki, Mutti, Romano, Tamar &nbsp;·&nbsp;
         <a href="https://anonymous.4open.science/r/safe-vla-TDQC-DC5F">View Code</a>
     </p>
 </footer>
