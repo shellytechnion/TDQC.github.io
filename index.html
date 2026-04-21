@@ -803,164 +803,6 @@
             TDQC achieves the lowest sequential Brier scores on all benchmarks.
         </p>
 
-        <!-- ROC-AUC -->
-        <div class="metric-row">
-            <h4>ROC-AUC</h4>
-            <span class="metric-badge">↑ Higher is better</span>
-        </div>
-        <div class="table-responsive">
-          <table class="table table-bordered table-sm results-table">
-            <thead>
-              <tr>
-                <th rowspan="3"></th>
-                <th>VLA Model</th>
-                <th colspan="2">OpenVLA</th>
-                <th colspan="2">OpenVLA</th>
-                <th colspan="2">UniVLA</th>
-                <th colspan="2">\(\pi_0\)-FAST</th>
-                <th colspan="2">\(\pi_0\)-FAST</th>
-                <th colspan="2">\(\pi_0\)</th>
-              </tr>
-              <tr>
-                <th>Benchmark</th>
-                <th colspan="2">LIBERO</th>
-                <th colspan="2">WidowX</th>
-                <th colspan="2">LIBERO</th>
-                <th colspan="2">LIBERO</th>
-                <th colspan="2">Franka</th>
-                <th colspan="2">LIBERO</th>
-              </tr>
-              <tr>
-                <th>Eval Split</th>
-                <th>Seen</th><th>Unseen</th>
-                <th>Seen</th><th>Unseen</th>
-                <th>Seen</th><th>Unseen</th>
-                <th>Seen</th><th>Unseen</th>
-                <th>Seen</th><th>Unseen</th>
-                <th>Seen</th><th>Unseen</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td rowspan="5" class="group-cell">Static Baselines</td>
-                <td class="method-cell">Max prob.</td>
-                <td>54.64</td><td>55.78</td>
-                <td>53.25</td><td>53.20</td>
-                <td>50.00</td><td>50.00</td>
-                <td>61.75</td><td>63.49</td>
-                <td>48.61</td><td>46.64</td>
-                <td>&mdash;</td><td>&mdash;</td>
-              </tr>
-              <tr>
-                <td class="method-cell">Avg prob.</td>
-                <td>47.08</td><td>48.09</td>
-                <td>47.47</td><td>48.30</td>
-                <td>42.96</td><td>40.25</td>
-                <td>47.36</td><td>48.09</td>
-                <td>49.45</td><td>48.03</td>
-                <td>&mdash;</td><td>&mdash;</td>
-              </tr>
-              <tr>
-                <td class="method-cell">Running Avg prob.</td>
-                <td>49.19</td><td>47.72</td>
-                <td>49.20</td><td>46.37</td>
-                <td>43.05</td><td>40.29</td>
-                <td>53.95</td><td>55.68</td>
-                <td>52.95</td><td>49.98</td>
-                <td>&mdash;</td><td>&mdash;</td>
-              </tr>
-              <tr>
-                <td class="method-cell">Avg entropy</td>
-                <td>46.81</td><td>46.75</td>
-                <td>50.19</td><td>49.36</td>
-                <td>41.34</td><td>47.36</td>
-                <td>45.42</td><td>46.30</td>
-                <td>49.28</td><td>49.07</td>
-                <td>&mdash;</td><td>&mdash;</td>
-              </tr>
-              <tr>
-                <td class="method-cell">Running Avg entropy</td>
-                <td>50.48</td><td>48.09</td>
-                <td>46.16</td><td>43.99</td>
-                <td>51.63</td><td>56.71</td>
-                <td>53.78</td><td>55.44</td>
-                <td>51.12</td><td>48.78</td>
-                <td>&mdash;</td><td>&mdash;</td>
-              </tr>
-              <tr class="group-sep">
-                <td rowspan="5" class="group-cell">Learned Baselines<br>(white-box)</td>
-                <td class="method-cell"><em>SAFE-RNN</em></td>
-                <td>72.30</td><td>69.04</td>
-                <td>75.95</td><td>70.00</td>
-                <td>74.48</td><td>68.13</td>
-                <td>91.26</td><td><span class="best-result">85.88</span></td>
-                <td>70.85</td><td>56.69</td>
-                <td>79.96</td><td>65.03</td>
-              </tr>
-              <tr class="ours-row">
-                <td class="method-cell"><em>SAFE-RNN-TDQC</em> <span class="badge-ours">Ours</span></td>
-                <td>71.67</td><td>65.12</td>
-                <td>84.01</td><td>70.76</td>
-                <td>73.83</td><td>64.25</td>
-                <td><span class="best-result">92.03</span></td><td>85.49</td>
-                <td><span class="best-result">79.89</span></td><td><span class="best-result">68.43</span></td>
-                <td>88.66</td><td><span class="best-result">82.94</span></td>
-              </tr>
-              <tr>
-                <td class="method-cell"><em>SAFE-MLP</em></td>
-                <td>73.56</td><td>69.53</td>
-                <td><span class="best-result">88.23</span></td><td><span class="best-result">83.18</span></td>
-                <td>74.39</td><td>63.80</td>
-                <td>79.00</td><td>68.36</td>
-                <td>79.15</td><td>63.94</td>
-                <td>86.33</td><td>79.75</td>
-              </tr>
-              <tr>
-                <td class="method-cell"><em>SAFE-MLP-BCE</em></td>
-                <td>72.66</td><td>64.99</td>
-                <td>85.38</td><td>71.43</td>
-                <td><span class="best-result">78.83</span></td><td>69.74</td>
-                <td>91.82</td><td>85.50</td>
-                <td>73.82</td><td>58.83</td>
-                <td><span class="best-result">89.71</span></td><td>80.53</td>
-              </tr>
-              <tr class="ours-row">
-                <td class="method-cell"><em>SAFE-MLP-TDQC</em> <span class="badge-ours">Ours</span></td>
-                <td>71.22</td><td>60.09</td>
-                <td>82.33</td><td>70.64</td>
-                <td>76.55</td><td>66.71</td>
-                <td>90.25</td><td>84.44</td>
-                <td>61.95</td><td>51.22</td>
-                <td>86.57</td><td>72.07</td>
-              </tr>
-              <tr class="group-sep">
-                <td rowspan="2" class="group-cell">Learned Baselines<br>(black-box)</td>
-                <td class="method-cell"><em>RNN-BCE</em></td>
-                <td>72.70</td><td>72.28</td>
-                <td>69.69</td><td>67.09</td>
-                <td>63.44</td><td>54.37</td>
-                <td>87.67</td><td>82.53</td>
-                <td>59.32</td><td>53.26</td>
-                <td>&mdash;</td><td>&mdash;</td>
-              </tr>
-              <tr class="ours-row">
-                <td class="method-cell"><em>RNN-TDQC</em> <span class="badge-ours">Ours</span></td>
-                <td><span class="best-result">74.20</span></td><td><span class="best-result">72.72</span></td>
-                <td>78.90</td><td>72.97</td>
-                <td>72.30</td><td><span class="best-result">70.17</span></td>
-                <td>87.51</td><td>83.39</td>
-                <td>64.19</td><td>57.37</td>
-                <td>&mdash;</td><td>&mdash;</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-        <p class="tbl-caption">
-            <strong>Table 2 &mdash; ROC-AUC ↑.</strong> Results averaged over 21 seeds. "&mdash;" = metric not computable.
-            <span class="best-result">Red bold</span> = best per column.
-            TDQC achieves SOTA results on all benchmarks except WidowX and \(\pi_0\)-FAST.
-        </p>
-
         <!-- ═══════════════════════════════════════════════════════════════════ -->
         <!-- APPLICATION 1: Early Stopping With Conformal Prediction            -->
         <!-- ═══════════════════════════════════════════════════════════════════ -->
@@ -972,13 +814,167 @@
             <!-- Early Stopping diagram -->
             <div class="row g-4" style="margin-bottom:36px;">
                 <div class="col-12">
-                    <div class="fig-card">
-                        <div class="fig-img-area" style="background:#fff;">
-                            <img src="figures/early_stopping_conformal.svg" alt="Early Stopping with Conformal Prediction diagram">
-                        </div>
-                    </div>
+                    <img src="figures/early_stopping_conformal.svg" alt="Early Stopping with Conformal Prediction diagram" style="width:100%;display:block;">
                 </div>
             </div>
+
+            <!-- ROC-AUC -->
+            <div class="metric-row">
+                <h4>ROC-AUC</h4>
+                <span class="metric-badge">↑ Higher is better</span>
+            </div>
+            <div class="table-responsive">
+              <table class="table table-bordered table-sm results-table">
+                <thead>
+                  <tr>
+                    <th rowspan="3"></th>
+                    <th>VLA Model</th>
+                    <th colspan="2">OpenVLA</th>
+                    <th colspan="2">OpenVLA</th>
+                    <th colspan="2">UniVLA</th>
+                    <th colspan="2">\(\pi_0\)-FAST</th>
+                    <th colspan="2">\(\pi_0\)-FAST</th>
+                    <th colspan="2">\(\pi_0\)</th>
+                  </tr>
+                  <tr>
+                    <th>Benchmark</th>
+                    <th colspan="2">LIBERO</th>
+                    <th colspan="2">WidowX</th>
+                    <th colspan="2">LIBERO</th>
+                    <th colspan="2">LIBERO</th>
+                    <th colspan="2">Franka</th>
+                    <th colspan="2">LIBERO</th>
+                  </tr>
+                  <tr>
+                    <th>Eval Split</th>
+                    <th>Seen</th><th>Unseen</th>
+                    <th>Seen</th><th>Unseen</th>
+                    <th>Seen</th><th>Unseen</th>
+                    <th>Seen</th><th>Unseen</th>
+                    <th>Seen</th><th>Unseen</th>
+                    <th>Seen</th><th>Unseen</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td rowspan="5" class="group-cell">Static Baselines</td>
+                    <td class="method-cell">Max prob.</td>
+                    <td>54.64</td><td>55.78</td>
+                    <td>53.25</td><td>53.20</td>
+                    <td>50.00</td><td>50.00</td>
+                    <td>61.75</td><td>63.49</td>
+                    <td>48.61</td><td>46.64</td>
+                    <td>&mdash;</td><td>&mdash;</td>
+                  </tr>
+                  <tr>
+                    <td class="method-cell">Avg prob.</td>
+                    <td>47.08</td><td>48.09</td>
+                    <td>47.47</td><td>48.30</td>
+                    <td>42.96</td><td>40.25</td>
+                    <td>47.36</td><td>48.09</td>
+                    <td>49.45</td><td>48.03</td>
+                    <td>&mdash;</td><td>&mdash;</td>
+                  </tr>
+                  <tr>
+                    <td class="method-cell">Running Avg prob.</td>
+                    <td>49.19</td><td>47.72</td>
+                    <td>49.20</td><td>46.37</td>
+                    <td>43.05</td><td>40.29</td>
+                    <td>53.95</td><td>55.68</td>
+                    <td>52.95</td><td>49.98</td>
+                    <td>&mdash;</td><td>&mdash;</td>
+                  </tr>
+                  <tr>
+                    <td class="method-cell">Avg entropy</td>
+                    <td>46.81</td><td>46.75</td>
+                    <td>50.19</td><td>49.36</td>
+                    <td>41.34</td><td>47.36</td>
+                    <td>45.42</td><td>46.30</td>
+                    <td>49.28</td><td>49.07</td>
+                    <td>&mdash;</td><td>&mdash;</td>
+                  </tr>
+                  <tr>
+                    <td class="method-cell">Running Avg entropy</td>
+                    <td>50.48</td><td>48.09</td>
+                    <td>46.16</td><td>43.99</td>
+                    <td>51.63</td><td>56.71</td>
+                    <td>53.78</td><td>55.44</td>
+                    <td>51.12</td><td>48.78</td>
+                    <td>&mdash;</td><td>&mdash;</td>
+                  </tr>
+                  <tr class="group-sep">
+                    <td rowspan="5" class="group-cell">Learned Baselines<br>(white-box)</td>
+                    <td class="method-cell"><em>SAFE-RNN</em></td>
+                    <td>72.30</td><td>69.04</td>
+                    <td>75.95</td><td>70.00</td>
+                    <td>74.48</td><td>68.13</td>
+                    <td>91.26</td><td><span class="best-result">85.88</span></td>
+                    <td>70.85</td><td>56.69</td>
+                    <td>79.96</td><td>65.03</td>
+                  </tr>
+                  <tr class="ours-row">
+                    <td class="method-cell"><em>SAFE-RNN-TDQC</em> <span class="badge-ours">Ours</span></td>
+                    <td>71.67</td><td>65.12</td>
+                    <td>84.01</td><td>70.76</td>
+                    <td>73.83</td><td>64.25</td>
+                    <td><span class="best-result">92.03</span></td><td>85.49</td>
+                    <td><span class="best-result">79.89</span></td><td><span class="best-result">68.43</span></td>
+                    <td>88.66</td><td><span class="best-result">82.94</span></td>
+                  </tr>
+                  <tr>
+                    <td class="method-cell"><em>SAFE-MLP</em></td>
+                    <td>73.56</td><td>69.53</td>
+                    <td><span class="best-result">88.23</span></td><td><span class="best-result">83.18</span></td>
+                    <td>74.39</td><td>63.80</td>
+                    <td>79.00</td><td>68.36</td>
+                    <td>79.15</td><td>63.94</td>
+                    <td>86.33</td><td>79.75</td>
+                  </tr>
+                  <tr>
+                    <td class="method-cell"><em>SAFE-MLP-BCE</em></td>
+                    <td>72.66</td><td>64.99</td>
+                    <td>85.38</td><td>71.43</td>
+                    <td><span class="best-result">78.83</span></td><td>69.74</td>
+                    <td>91.82</td><td>85.50</td>
+                    <td>73.82</td><td>58.83</td>
+                    <td><span class="best-result">89.71</span></td><td>80.53</td>
+                  </tr>
+                  <tr class="ours-row">
+                    <td class="method-cell"><em>SAFE-MLP-TDQC</em> <span class="badge-ours">Ours</span></td>
+                    <td>71.22</td><td>60.09</td>
+                    <td>82.33</td><td>70.64</td>
+                    <td>76.55</td><td>66.71</td>
+                    <td>90.25</td><td>84.44</td>
+                    <td>61.95</td><td>51.22</td>
+                    <td>86.57</td><td>72.07</td>
+                  </tr>
+                  <tr class="group-sep">
+                    <td rowspan="2" class="group-cell">Learned Baselines<br>(black-box)</td>
+                    <td class="method-cell"><em>RNN-BCE</em></td>
+                    <td>72.70</td><td>72.28</td>
+                    <td>69.69</td><td>67.09</td>
+                    <td>63.44</td><td>54.37</td>
+                    <td>87.67</td><td>82.53</td>
+                    <td>59.32</td><td>53.26</td>
+                    <td>&mdash;</td><td>&mdash;</td>
+                  </tr>
+                  <tr class="ours-row">
+                    <td class="method-cell"><em>RNN-TDQC</em> <span class="badge-ours">Ours</span></td>
+                    <td><span class="best-result">74.20</span></td><td><span class="best-result">72.72</span></td>
+                    <td>78.90</td><td>72.97</td>
+                    <td>72.30</td><td><span class="best-result">70.17</span></td>
+                    <td>87.51</td><td>83.39</td>
+                    <td>64.19</td><td>57.37</td>
+                    <td>&mdash;</td><td>&mdash;</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <p class="tbl-caption">
+                <strong>Table 2 &mdash; ROC-AUC ↑.</strong> Results averaged over 21 seeds. "&mdash;" = metric not computable.
+                <span class="best-result">Red bold</span> = best per column.
+                TDQC achieves SOTA results on all benchmarks except WidowX and \(\pi_0\)-FAST.
+            </p>
 
             <!-- Brier vs ROC animated figure -->
             <div class="row g-4">
@@ -997,42 +993,46 @@
 
             <!-- Early Stopping Videos -->
             <div class="vid-section">
-                <div class="vid-subsec">LIBERO (Simulation) &mdash; OpenVLA</div>
+                <div class="vid-subsec">LIBERO-10 (Simulation) &mdash; OpenVLA</div>
                 <p style="font-size:0.9rem;color:var(--muted);margin-bottom:16px;">These LIBERO rollouts compare <strong>TDQC (SAFE-LSTM-TD0)</strong> against the <strong>SAFE-LSTM cross-entropy baseline</strong> on identical trajectories.</p>
-                <div class="row g-4">
-                    <div class="col-md-6">
-                        <div class="video-card">
-                            <div class="video-area"><video controls preload="metadata" style="width:100%;display:block;"><source src="figures/videos_functional_openvla_q_learning_TDLoss_0_task3_ep25_succ1_predsucc1.mp4" type="video/mp4"></video></div>
-                            <div class="video-label">
-                                <div class="vid-num">V1 &mdash; TDQC &mdash; Task 3 &mdash; ✅ Success → Predicted ✅ Success</div>
-                                <div class="vid-desc">TDQC correctly predicts a successful outcome on Task 3. The probe's \(\hat{p}_t\) rises steadily as the trajectory progresses.</div>
+
+                <div class="task-label">Task 3 &mdash; Put the black bowl in the bottom drawer of the cabinet and close it</div>
+                <div class="video-card">
+                    <div class="video-area"><video controls preload="metadata" style="width:100%;display:block;"><source src="figures/libero_task3_combined.mp4" type="video/mp4"></video></div>
+                    <div class="video-label" style="padding:0;">
+                        <div class="row g-0">
+                            <div class="col-4" style="padding:14px 18px;border-right:1px solid var(--border);">
+                                <div class="vid-num">RNN-TDQC (Top-10): Actual ✅ → Predicted ✅</div>
+                                <div class="vid-desc">TDQC correctly predicts a successful outcome on Task 3. The probe's \(f_\theta(h_t)\) shows spikes in the curve on 'uncertain' parts: when the robot grasps the bowl and when it drops it.</div>
+                            </div>
+                            <div class="col-4" style="padding:14px 18px;border-right:1px solid var(--border);">
+                                <div class="vid-num">SAFE-RNN-TDQC (Features): Actual ✅ → Predicted ❌</div>
+                                <div class="vid-desc">The SAFE-LSTM baseline fails on <em>the same episode in Task 3</em>: it predicts failure in the middle of a successful trajectory &mdash; a false negative TDQC avoids. The conformal prediction band is wider, indicating more uncertainty in \(f_\theta(h_t)\).</div>
+                            </div>
+                            <div class="col-4" style="padding:14px 18px;">
+                                <div class="vid-num">SAFE-MLP (Cumsum Loss): Actual ✅ → Predicted ❌</div>
+                                <div class="vid-desc">The independent MLP also fails <em>the same episode in Task 3</em>: the failure score rises steadily over the trajectory and rises above the threshold in an unexplained manner.</div>
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-6">
-                        <div class="video-card">
-                            <div class="video-area"><video controls preload="metadata" style="width:100%;display:block;"><source src="figures/videos_functional_openvla_lstm_TDLoss_0_task3_ep25_succ1_predsucc0.mp4" type="video/mp4"></video></div>
-                            <div class="video-label">
-                                <div class="vid-num">V2 &mdash; LSTM Baseline &mdash; Task 3 &mdash; ✅ Success → Predicted ❌ Failure</div>
-                                <div class="vid-desc">The SAFE-LSTM baseline fails on <em>the same Task 3 rollout</em>: it predicts failure for an ultimately successful trajectory &mdash; a false negative TDQC avoids.</div>
+                </div>
+
+                <div class="task-label" style="margin-top:24px;">Task 5 &mdash; Pick up the book and place it in the back compartment of the caddy</div>
+                <div class="video-card">
+                    <div class="video-area"><video controls preload="metadata" style="width:100%;display:block;"><source src="figures/libero_task5_combined.mp4" type="video/mp4"></video></div>
+                    <div class="video-label" style="padding:0;">
+                        <div class="row g-0">
+                            <div class="col-4" style="padding:14px 18px;border-right:1px solid var(--border);">
+                                <div class="vid-num">RNN-TDQC (Top-10): Actual ❌ → Predicted ❌</div>
+                                <div class="vid-desc">TDQC correctly identifies a failed trajectory on Task 5. \(f_\theta(h_t)\) declines only when the robot is stuck, enabling timely intervention.</div>
                             </div>
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="video-card">
-                            <div class="video-area"><video controls preload="metadata" style="width:100%;display:block;"><source src="figures/videos_functional_openvla_q_learning_TDLoss_0_task5_ep20_succ0_predsucc0.mp4" type="video/mp4"></video></div>
-                            <div class="video-label">
-                                <div class="vid-num">V3 &mdash; TDQC &mdash; Task 5 &mdash; ❌ Failure → Predicted ❌ Failure</div>
-                                <div class="vid-desc">TDQC correctly identifies a failed trajectory on Task 5. \(\hat{p}_t\) declines mid-trajectory, enabling timely intervention.</div>
+                            <div class="col-4" style="padding:14px 18px;border-right:1px solid var(--border);">
+                                <div class="vid-num">SAFE-LSTM (Features): Actual ❌ → Predicted ❌</div>
+                                <div class="vid-desc">The SAFE-LSTM baseline also predicts failure on Task 5, but with temporally noisy estimates. Compared to RNN-TDQC (Top-10) that produces smoother failure predictions.</div>
                             </div>
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="video-card">
-                            <div class="video-area"><video controls preload="metadata" style="width:100%;display:block;"><source src="figures/videos_functional_openvla_lstm_TDLoss_0_task5_ep20_succ0_predsucc0.mp4" type="video/mp4"></video></div>
-                            <div class="video-label">
-                                <div class="vid-num">V4 &mdash; LSTM Baseline &mdash; Task 5 &mdash; ❌ Failure → Predicted ❌ Failure</div>
-                                <div class="vid-desc">The SAFE-LSTM baseline also predicts failure on Task 5, but with temporally noisy estimates. Compare with V3 to see how TDQC produces smoother, earlier divergence.</div>
+                            <div class="col-4" style="padding:14px 18px;">
+                                <div class="vid-num">IndepMLP: Actual ❌ → Predicted ❌</div>
+                                <div class="vid-desc">The independent MLP also predicts failure, but with less temporally consistent estimates than the TD-based method.</div>
                             </div>
                         </div>
                     </div>
@@ -1042,30 +1042,20 @@
                 <p style="font-size:0.9rem;color:var(--muted);margin-bottom:16px;">Six real-robot clips comparing <strong>TDQC</strong>, <strong>SAFE-LSTM</strong>, and <strong>IndepMLP</strong> on two tasks. On Task 4 only TDQC correctly predicts success; on Task 5 the IndepMLP produces a dangerous false positive.</p>
 
                 <div class="task-label">Task 4 &mdash; Actual outcome: ✅ Success</div>
-                <div class="row g-4">
-                    <div class="col-md-4">
-                        <div class="video-card">
-                            <div class="video-area"><video controls preload="metadata" style="width:100%;display:block;"><source src="figures/videos_functional_openvla_widowx_v2_openvla_q_learning_TDLoss_0_task4_ep12_succ1_predsucc1.mp4" type="video/mp4"></video></div>
-                            <div class="video-label">
-                                <div class="vid-num">V11 &mdash; TDQC &mdash; Task 4 &mdash; ✅ → ✅</div>
+                <div class="video-card">
+                    <div class="video-area"><video controls preload="metadata" style="width:100%;display:block;"><source src="figures/widowx_task4_combined.mp4" type="video/mp4"></video></div>
+                    <div class="video-label" style="padding:0;">
+                        <div class="row g-0">
+                            <div class="col-4" style="padding:14px 18px;border-right:1px solid var(--border);">
+                                <div class="vid-num">TDQC &mdash; ✅ → ✅</div>
                                 <div class="vid-desc">TDQC correctly predicts success. TD-consistent probe maintains a rising \(\hat{p}_t\) throughout the manipulation.</div>
                             </div>
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="video-card">
-                            <div class="video-area"><video controls preload="metadata" style="width:100%;display:block;"><source src="figures/videos_functional_openvla_widowx_v2_openvla_lstm_TDLoss_0_task4_ep12_succ1_predsucc0.mp4" type="video/mp4"></video></div>
-                            <div class="video-label">
-                                <div class="vid-num">V12 &mdash; LSTM Baseline &mdash; Task 4 &mdash; ✅ → ❌</div>
+                            <div class="col-4" style="padding:14px 18px;border-right:1px solid var(--border);">
+                                <div class="vid-num">LSTM Baseline &mdash; ✅ → ❌</div>
                                 <div class="vid-desc">SAFE-LSTM incorrectly predicts failure on the same successful rollout (false negative). Without TD supervision, estimates are not anchored to future outcomes.</div>
                             </div>
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="video-card">
-                            <div class="video-area"><video controls preload="metadata" style="width:100%;display:block;"><source src="figures/videos_functional_openvla_widowx_v2_openvla_indep_regular_0_task4_ep12_succ1_predsucc0.mp4" type="video/mp4"></video></div>
-                            <div class="video-label">
-                                <div class="vid-num">V13 &mdash; IndepMLP Baseline &mdash; Task 4 &mdash; ✅ → ❌</div>
+                            <div class="col-4" style="padding:14px 18px;">
+                                <div class="vid-num">IndepMLP Baseline &mdash; ✅ → ❌</div>
                                 <div class="vid-desc">The independent MLP also fails (false negative). Treating each step in isolation, it cannot integrate evidence across the trajectory.</div>
                             </div>
                         </div>
@@ -1073,30 +1063,20 @@
                 </div>
 
                 <div class="task-label" style="margin-top:24px;">Task 5 &mdash; Actual outcome: ❌ Failure</div>
-                <div class="row g-4">
-                    <div class="col-md-4">
-                        <div class="video-card">
-                            <div class="video-area"><video controls preload="metadata" style="width:100%;display:block;"><source src="figures/videos_functional_openvla_widowx_v2_openvla_q_learning_TDLoss_0_task5_ep7_succ0_predsucc0.mp4" type="video/mp4"></video></div>
-                            <div class="video-label">
-                                <div class="vid-num">V14 &mdash; TDQC &mdash; Task 5 &mdash; ❌ → ❌</div>
+                <div class="video-card">
+                    <div class="video-area"><video controls preload="metadata" style="width:100%;display:block;"><source src="figures/widowx_task5_combined.mp4" type="video/mp4"></video></div>
+                    <div class="video-label" style="padding:0;">
+                        <div class="row g-0">
+                            <div class="col-4" style="padding:14px 18px;border-right:1px solid var(--border);">
+                                <div class="vid-num">TDQC &mdash; ❌ → ❌</div>
                                 <div class="vid-desc">TDQC correctly predicts failure. \(\hat{p}_t\) drops smoothly ahead of task termination, providing an early warning for safe intervention.</div>
                             </div>
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="video-card">
-                            <div class="video-area"><video controls preload="metadata" style="width:100%;display:block;"><source src="figures/videos_functional_openvla_widowx_v2_openvla_lstm_TDLoss_0_task5_ep7_succ0_predsucc0.mp4" type="video/mp4"></video></div>
-                            <div class="video-label">
-                                <div class="vid-num">V15 &mdash; LSTM Baseline &mdash; Task 5 &mdash; ❌ → ❌</div>
+                            <div class="col-4" style="padding:14px 18px;border-right:1px solid var(--border);">
+                                <div class="vid-num">LSTM Baseline &mdash; ❌ → ❌</div>
                                 <div class="vid-desc">SAFE-LSTM also predicts failure but with higher variance. Noisy signals make it harder to set a reliable intervention threshold.</div>
                             </div>
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="video-card">
-                            <div class="video-area"><video controls preload="metadata" style="width:100%;display:block;"><source src="figures/videos_functional_openvla_widowx_v2_openvla_indep_regular_0_task5_ep7_succ0_predsucc1.mp4" type="video/mp4"></video></div>
-                            <div class="video-label">
-                                <div class="vid-num">V16 &mdash; IndepMLP Baseline &mdash; Task 5 &mdash; ❌ → ✅</div>
+                            <div class="col-4" style="padding:14px 18px;">
+                                <div class="vid-num">IndepMLP Baseline &mdash; ❌ → ✅</div>
                                 <div class="vid-desc">The IndepMLP produces a <strong>dangerous false positive</strong>: it predicts success throughout a clearly failing trajectory, illustrating why per-step independent calibration is insufficient for safe deployment.</div>
                             </div>
                         </div>
@@ -1116,11 +1096,7 @@
             <!-- Q-value Guided Action Selection diagram -->
             <div class="row g-4" style="margin-bottom:36px;">
                 <div class="col-12">
-                    <div class="fig-card">
-                        <div class="fig-img-area" style="background:#fff;">
-                            <img src="figures/q_value_guided_action_selection.svg" alt="Q-value Guided Action Selection diagram">
-                        </div>
-                    </div>
+                    <img src="figures/q_value_guided_action_selection.svg" alt="Q-value Guided Action Selection diagram" style="width:100%;display:block;">
                 </div>
             </div>
 
@@ -1143,98 +1119,72 @@
             <div class="vid-section">
                 <p class="vid-section-desc">Rollouts comparing different Q-value guided action search strategies (grid sampling vs. entropy-based baseline) on Task 3 (success) and Task 9 (failure).</p>
 
-                <div class="task-label">Task 3 &mdash; Actual outcome: ✅ Success</div>
-                <div class="row g-4">
-                    <div class="col-md-4">
-                        <div class="video-card">
-                            <div class="video-area"><video controls preload="metadata" style="width:100%;display:block;"><source src="figures/rollouts_baseline_old_task3_ep14_succ0_predsucc0.mp4" type="video/mp4"></video></div>
-                            <div class="video-label">
-                                <div class="vid-num">V17 &mdash; Baseline &mdash; Task 3 &mdash; ✅ → ✅</div>
-                                <div class="vid-desc">The old baseline correctly predicts success on Task 3, episode 7.</div>
+                <div class="task-label">Task 3 &mdash; Put the black bowl in the bottom drawer of the cabinet and close it &mdash; Actual outcome: ✅ Success</div>
+                <div class="video-card" style="margin-bottom:18px;">
+                    <div class="video-area"><video controls preload="metadata" style="width:100%;display:block;"><source src="figures/qval_task3_group1.mp4" type="video/mp4"></video></div>
+                    <div class="video-label" style="padding:0;">
+                        <div class="row g-0">
+                            <div class="col-4" style="padding:14px 18px;border-right:1px solid var(--border);">
+                                <div class="vid-num">Baseline &mdash; ✅ → ✅</div>
+                                <div class="vid-desc">The old baseline correctly predicts success on Task 3.</div>
                             </div>
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="video-card">
-                            <div class="video-area"><video controls preload="metadata" style="width:100%;display:block;"><source src="figures/rollouts_grid_n10_temp1.5_task3_ep14_succ1_predsucc1.mp4" type="video/mp4"></video></div>
-                            <div class="video-label">
-                                <div class="vid-num">V18 &mdash; Grid (n=10, T=1.5) &mdash; Task 3 &mdash; ✅ → ✅</div>
+                            <div class="col-4" style="padding:14px 18px;border-right:1px solid var(--border);">
+                                <div class="vid-num">Grid (n=10, T=1.5) &mdash; ✅ → ✅</div>
                                 <div class="vid-desc">Grid-based action selection (10 candidates, temperature 1.5) correctly predicts success on Task 3.</div>
                             </div>
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="video-card">
-                            <div class="video-area"><video controls preload="metadata" style="width:100%;display:block;"><source src="figures/rollouts_grid_n10_temp1.5_thresh0.35_task3_ep14_succ0_predsucc0.mp4" type="video/mp4"></video></div>
-                            <div class="video-label">
-                                <div class="vid-num">V19 &mdash; Grid (thresh=0.35) &mdash; Task 3 &mdash; ✅ → ❌</div>
+                            <div class="col-4" style="padding:14px 18px;">
+                                <div class="vid-num">Grid (thresh=0.35) &mdash; ✅ → ❌</div>
                                 <div class="vid-desc">Grid selection with threshold 0.35 incorrectly predicts failure (false negative). The aggressive threshold causes over-pessimism.</div>
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-4">
-                        <div class="video-card">
-                            <div class="video-area"><video controls preload="metadata" style="width:100%;display:block;"><source src="figures/rollouts_grid_n10_temp1.5_probs_ent_task3_ep14_succ1_predsucc1.mp4" type="video/mp4"></video></div>
-                            <div class="video-label">
-                                <div class="vid-num">V20 &mdash; Grid (probs+entropy) &mdash; Task 3 &mdash; ✅ → ✅</div>
+                </div>
+                <div class="video-card">
+                    <div class="video-area"><video controls preload="metadata" style="width:100%;display:block;"><source src="figures/qval_task3_group2.mp4" type="video/mp4"></video></div>
+                    <div class="video-label" style="padding:0;">
+                        <div class="row g-0">
+                            <div class="col-6" style="padding:14px 18px;border-right:1px solid var(--border);">
+                                <div class="vid-num">Grid (probs+entropy) &mdash; ✅ → ✅</div>
                                 <div class="vid-desc">Grid selection with probability-entropy scoring correctly predicts success on Task 3.</div>
                             </div>
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="video-card">
-                            <div class="video-area"><video controls preload="metadata" style="width:100%;display:block;"><source src="figures/rollouts_grid_n10_temp1.5_BCE_task3_ep14_succ1_predsucc0.mp4" type="video/mp4"></video></div>
-                            <div class="video-label">
-                                <div class="vid-num">V21 &mdash; Grid (BCE) &mdash; Task 3 &mdash; ✅ → ❌</div>
+                            <div class="col-6" style="padding:14px 18px;">
+                                <div class="vid-num">Grid (BCE) &mdash; ✅ → ❌</div>
                                 <div class="vid-desc">The BCE-based grid variant predicts failure on this successful Task 3 rollout.</div>
                             </div>
                         </div>
                     </div>
                 </div>
 
-                <div class="task-label" style="margin-top:24px;">Task 9 &mdash; Actual outcome: ❌ Failure</div>
-                <div class="row g-4">
-                    <div class="col-md-4">
-                        <div class="video-card">
-                            <div class="video-area"><video controls preload="metadata" style="width:100%;display:block;"><source src="figures/rollouts_baseline_old_task9_ep11_succ1_predsucc1.mp4" type="video/mp4"></video></div>
-                            <div class="video-label">
-                                <div class="vid-num">V22 &mdash; Baseline &mdash; Task 9 &mdash; ❌ → ❌</div>
+                <div class="task-label" style="margin-top:24px;">Task 9 &mdash; Put the yellow and white mug in the microwave and close it &mdash; Actual outcome: ❌ Failure</div>
+                <div class="video-card" style="margin-bottom:18px;">
+                    <div class="video-area"><video controls preload="metadata" style="width:100%;display:block;"><source src="figures/qval_task9_group1.mp4" type="video/mp4"></video></div>
+                    <div class="video-label" style="padding:0;">
+                        <div class="row g-0">
+                            <div class="col-4" style="padding:14px 18px;border-right:1px solid var(--border);">
+                                <div class="vid-num">Baseline &mdash; ❌ → ❌</div>
                                 <div class="vid-desc">The baseline correctly predicts failure on Task 9.</div>
                             </div>
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="video-card">
-                            <div class="video-area"><video controls preload="metadata" style="width:100%;display:block;"><source src="figures/rollouts_grid_n10_temp1.5_task9_ep11_succ1_predsucc1.mp4" type="video/mp4"></video></div>
-                            <div class="video-label">
-                                <div class="vid-num">V23 &mdash; Grid (n=10, T=1.5) &mdash; Task 9 &mdash; ❌ → ❌</div>
+                            <div class="col-4" style="padding:14px 18px;border-right:1px solid var(--border);">
+                                <div class="vid-num">Grid (n=10, T=1.5) &mdash; ❌ → ❌</div>
                                 <div class="vid-desc">Grid-based action selection correctly predicts failure on Task 9.</div>
                             </div>
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="video-card">
-                            <div class="video-area"><video controls preload="metadata" style="width:100%;display:block;"><source src="figures/rollouts_grid_n10_temp1.5_thresh0.35_task9_ep11_succ1_predsucc0.mp4" type="video/mp4"></video></div>
-                            <div class="video-label">
-                                <div class="vid-num">V24 &mdash; Grid (thresh=0.35) &mdash; Task 9 &mdash; ❌ → ❌</div>
+                            <div class="col-4" style="padding:14px 18px;">
+                                <div class="vid-num">Grid (thresh=0.35) &mdash; ❌ → ❌</div>
                                 <div class="vid-desc">Grid selection with threshold 0.35 is more conservative and flags potential failure earlier.</div>
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-4">
-                        <div class="video-card">
-                            <div class="video-area"><video controls preload="metadata" style="width:100%;display:block;"><source src="figures/rollouts_grid_n10_temp1.5_probs_ent_task9_ep11_succ0_predsucc1.mp4" type="video/mp4"></video></div>
-                            <div class="video-label">
-                                <div class="vid-num">V25 &mdash; Grid (probs+entropy) &mdash; Task 9 &mdash; ❌ → ✅</div>
+                </div>
+                <div class="video-card">
+                    <div class="video-area"><video controls preload="metadata" style="width:100%;display:block;"><source src="figures/qval_task9_group2.mp4" type="video/mp4"></video></div>
+                    <div class="video-label" style="padding:0;">
+                        <div class="row g-0">
+                            <div class="col-6" style="padding:14px 18px;border-right:1px solid var(--border);">
+                                <div class="vid-num">Grid (probs+entropy) &mdash; ❌ → ✅</div>
                                 <div class="vid-desc">The entropy-based grid variant produces a <strong>dangerous false positive</strong>: predicts success on a clearly failing trajectory, illustrating the pitfall of entropy-only selection criteria.</div>
                             </div>
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="video-card">
-                            <div class="video-area"><video controls preload="metadata" style="width:100%;display:block;"><source src="figures/rollouts_grid_n10_temp1.5_BCE_task9_ep11_succ0_predsucc1.mp4" type="video/mp4"></video></div>
-                            <div class="video-label">
-                                <div class="vid-num">V26 &mdash; Grid (BCE) &mdash; Task 9 &mdash; ❌ → ✅</div>
+                            <div class="col-6" style="padding:14px 18px;">
+                                <div class="vid-num">Grid (BCE) &mdash; ❌ → ✅</div>
                                 <div class="vid-desc">The BCE-based grid variant also produces a false positive on this failing Task 9 rollout.</div>
                             </div>
                         </div>
