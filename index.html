@@ -553,7 +553,7 @@
                 <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
                 Read Paper
             </a>
-            <a href="https://anonymous.4open.science/r/safe-vla-TDQC-DC5F" class="btn-hero btn-hero-outline">
+            <a href="https://github.com/shellytechnion/TDQC" class="btn-hero btn-hero-outline">
                 <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
                 View Code
             </a>
@@ -994,7 +994,7 @@
             <!-- Early Stopping Videos -->
             <div class="vid-section">
                 <div class="vid-subsec">LIBERO-10 (Simulation) &mdash; OpenVLA</div>
-                <p style="font-size:0.9rem;color:var(--muted);margin-bottom:16px;">These LIBERO rollouts compare <strong>TDQC (SAFE-LSTM-TD0)</strong> against the <strong>SAFE-LSTM cross-entropy baseline</strong> on identical trajectories.</p>
+                <p style="font-size:0.9rem;color:var(--muted);margin-bottom:16px;">These LIBERO rollouts compare <strong>TDQC (SAFE-RNN-TD0)</strong> against the <strong>SAFE-RNN-TDQC cross-entropy baseline</strong> on identical trajectories.</p>
 
                 <div class="task-label">Task 3 &mdash; Put the black bowl in the bottom drawer of the cabinet and close it</div>
                 <div class="video-card">
@@ -1007,11 +1007,11 @@
                             </div>
                             <div class="col-4" style="padding:14px 18px;border-right:1px solid var(--border);">
                                 <div class="vid-num">SAFE-RNN-TDQC (Features): Actual ✅ → Predicted ❌</div>
-                                <div class="vid-desc">The SAFE-LSTM baseline fails on <em>the same episode in Task 3</em>: it predicts failure in the middle of a successful trajectory &mdash; a false negative TDQC avoids. The conformal prediction band is wider, indicating more uncertainty in \(f_\theta(h_t)\).</div>
+                                <div class="vid-desc">The SAFE-RNN-TDQC fails on <em>the same episode in Task 3</em>: it predicts failure in the middle of a successful trajectory &mdash; a false negative TDQC avoids. The conformal prediction band is wider, indicating more uncertainty in \(f_\theta(h_t)\).</div>
                             </div>
                             <div class="col-4" style="padding:14px 18px;">
                                 <div class="vid-num">SAFE-MLP (Cumsum Loss): Actual ✅ → Predicted ❌</div>
-                                <div class="vid-desc">The independent MLP also fails <em>the same episode in Task 3</em>: the failure score rises steadily over the trajectory and rises above the threshold in an unexplained manner.</div>
+                                <div class="vid-desc">The SAFE-MLP also fails <em>the same episode in Task 3</em>: the failure score rises steadily over the trajectory and rises above the threshold in an unexplained manner.</div>
                             </div>
                         </div>
                     </div>
@@ -1027,57 +1027,57 @@
                                 <div class="vid-desc">TDQC correctly identifies a failed trajectory on Task 5. \(f_\theta(h_t)\) declines only when the robot is stuck, enabling timely intervention.</div>
                             </div>
                             <div class="col-4" style="padding:14px 18px;border-right:1px solid var(--border);">
-                                <div class="vid-num">SAFE-LSTM (Features): Actual ❌ → Predicted ❌</div>
-                                <div class="vid-desc">The SAFE-LSTM baseline also predicts failure on Task 5, but with temporally noisy estimates. Compared to RNN-TDQC (Top-10) that produces smoother failure predictions.</div>
+                                <div class="vid-num">SAFE-RNN-TDQC (Features): Actual ❌ → Predicted ❌</div>
+                                <div class="vid-desc">The SAFE-RNN-TDQC baseline also predicts failure on Task 5, but with temporally noisy estimates. Compared to RNN-TDQC (Top-10) that produces smoother failure predictions.</div>
                             </div>
                             <div class="col-4" style="padding:14px 18px;">
-                                <div class="vid-num">IndepMLP: Actual ❌ → Predicted ❌</div>
-                                <div class="vid-desc">The independent MLP also predicts failure, but with less temporally consistent estimates than the TD-based method.</div>
+                                <div class="vid-num">SAFE-MLP (Cumsum Loss): Actual ❌ → Predicted ❌</div>
+                                <div class="vid-desc">The SAFE-MLP also predicts failure, from frame 3, early in the trajectory.</div>
                             </div>
                         </div>
                     </div>
                 </div>
 
                 <div class="vid-subsec" style="margin-top:36px;">WidowX Real-Robot &mdash; OpenVLA</div>
-                <p style="font-size:0.9rem;color:var(--muted);margin-bottom:16px;">Six real-robot clips comparing <strong>TDQC</strong>, <strong>SAFE-LSTM</strong>, and <strong>IndepMLP</strong> on two tasks. On Task 4 only TDQC correctly predicts success; on Task 5 the IndepMLP produces a dangerous false positive.</p>
+                <p style="font-size:0.9rem;color:var(--muted);margin-bottom:16px;">Six real-robot clips comparing <strong>TDQC</strong>, <strong>SAFE-RNN-TDQC</strong>, and <strong>SAFE-MLP</strong> on two tasks. On Task 4 only TDQC correctly predicts success; on Task 5 the SAFE-MLP produces a dangerous false positive.</p>
 
-                <div class="task-label">Task 4 &mdash; Actual outcome: ✅ Success</div>
+                <div class="task-label">Task 4 &mdash; Put blue cup on plate</div>
                 <div class="video-card">
                     <div class="video-area"><video controls preload="metadata" style="width:100%;display:block;"><source src="figures/widowx_task4_combined.mp4" type="video/mp4"></video></div>
                     <div class="video-label" style="padding:0;">
                         <div class="row g-0">
                             <div class="col-4" style="padding:14px 18px;border-right:1px solid var(--border);">
-                                <div class="vid-num">TDQC &mdash; ✅ → ✅</div>
-                                <div class="vid-desc">TDQC correctly predicts success. TD-consistent probe maintains a rising \(\hat{p}_t\) throughout the manipulation.</div>
+                                <div class="vid-num">RNN-TDQC (Top-10): Actual ✅ → Predicted ✅</div>
+                                <div class="vid-desc">TDQC correctly predicts success. The failure score decreases monotonically as the rollout progresses, reflecting the accumulation of trajectory information over time.</div>
                             </div>
                             <div class="col-4" style="padding:14px 18px;border-right:1px solid var(--border);">
-                                <div class="vid-num">LSTM Baseline &mdash; ✅ → ❌</div>
-                                <div class="vid-desc">SAFE-LSTM incorrectly predicts failure on the same successful rollout (false negative). Without TD supervision, estimates are not anchored to future outcomes.</div>
+                                <div class="vid-num">SAFE-RNN-TDQC (Features): Actual ✅ → Predicted ❌</div>
+                                <div class="vid-desc">SAFE-RNN-TDQC incorrectly predicts failure on the same successful rollout (false negative). The failure score rises above the threshold from the <strong>first frame</strong></div>
                             </div>
                             <div class="col-4" style="padding:14px 18px;">
-                                <div class="vid-num">IndepMLP Baseline &mdash; ✅ → ❌</div>
-                                <div class="vid-desc">The independent MLP also fails (false negative). Treating each step in isolation, it cannot integrate evidence across the trajectory.</div>
+                                <div class="vid-num">SAFE-MLP (Cumsum Loss): Actual ✅ → Predicted ❌</div>
+                                <div class="vid-desc">The SAFE-MLP also fails (false negative), predicting failure in the <strong>second frame</strong>, while no failure indication is present.</div>
                             </div>
                         </div>
                     </div>
                 </div>
 
-                <div class="task-label" style="margin-top:24px;">Task 5 &mdash; Actual outcome: ❌ Failure</div>
+                <div class="task-label" style="margin-top:24px;">Task 5 &mdash; Put the red bottle into pot</div>
                 <div class="video-card">
                     <div class="video-area"><video controls preload="metadata" style="width:100%;display:block;"><source src="figures/widowx_task5_combined.mp4" type="video/mp4"></video></div>
                     <div class="video-label" style="padding:0;">
                         <div class="row g-0">
                             <div class="col-4" style="padding:14px 18px;border-right:1px solid var(--border);">
-                                <div class="vid-num">TDQC &mdash; ❌ → ❌</div>
-                                <div class="vid-desc">TDQC correctly predicts failure. \(\hat{p}_t\) drops smoothly ahead of task termination, providing an early warning for safe intervention.</div>
+                                <div class="vid-num">RNN-TDQC (Top-10): Actual ❌ → Predicted ❌</div>
+                                <div class="vid-desc">TDQC correctly predicts failure, but \(f_\theta(h_t)\) rises above the threshold from the <strong>second frame</strong>.</div>
                             </div>
                             <div class="col-4" style="padding:14px 18px;border-right:1px solid var(--border);">
-                                <div class="vid-num">LSTM Baseline &mdash; ❌ → ❌</div>
-                                <div class="vid-desc">SAFE-LSTM also predicts failure but with higher variance. Noisy signals make it harder to set a reliable intervention threshold.</div>
+                                <div class="vid-num">SAFE-RNN-TDQC (Features): Actual ❌ → Predicted ❌</div>
+                                <div class="vid-desc">SAFE-RNN-TDQC also predicts failure. When the failure score rises above the threshold - the robot was uable to grasp the red bottle.</div>
                             </div>
                             <div class="col-4" style="padding:14px 18px;">
-                                <div class="vid-num">IndepMLP Baseline &mdash; ❌ → ✅</div>
-                                <div class="vid-desc">The IndepMLP produces a <strong>dangerous false positive</strong>: it predicts success throughout a clearly failing trajectory, illustrating why per-step independent calibration is insufficient for safe deployment.</div>
+                                <div class="vid-num">SAFE-MLP (Cumsum Loss): Actual ❌ → Predicted ✅</div>
+                                <div class="vid-desc">The SAFE-MLP produces a <strong>false positive</strong>: it predicts success throughout a failing trajectory.</div>
                             </div>
                         </div>
                     </div>
@@ -1125,16 +1125,16 @@
                     <div class="video-label" style="padding:0;">
                         <div class="row g-0">
                             <div class="col-4" style="padding:14px 18px;border-right:1px solid var(--border);">
-                                <div class="vid-num">Baseline &mdash; ✅ → ✅</div>
-                                <div class="vid-desc">The old baseline correctly predicts success on Task 3.</div>
+                                <div class="vid-num">Baseline (OpenVLA policy)</div>
+                                <div class="vid-desc">The baseline choooses the actions with highest probabilities.</div>
                             </div>
                             <div class="col-4" style="padding:14px 18px;border-right:1px solid var(--border);">
-                                <div class="vid-num">Grid (n=10, T=1.5) &mdash; ✅ → ✅</div>
-                                <div class="vid-desc">Grid-based action selection (10 candidates, temperature 1.5) correctly predicts success on Task 3.</div>
+                                <div class="vid-num">RNN-TDQC (top-10)</div>
+                                <div class="vid-desc">RNN-TDQC-based action selection (10 candidates, temperature 1.5, no threshold)</div>
                             </div>
                             <div class="col-4" style="padding:14px 18px;">
-                                <div class="vid-num">Grid (thresh=0.35) &mdash; ✅ → ❌</div>
-                                <div class="vid-desc">Grid selection with threshold 0.35 incorrectly predicts failure (false negative). The aggressive threshold causes over-pessimism.</div>
+                                <div class="vid-num">RNN-TDQC (top-10, thresh=0.35)</div>
+                                <div class="vid-desc">RNN-TDQC-based action selection with threshold \(\bar{T}= 0.35 \) (10 candidates, temperature 1.5)</div>
                             </div>
                         </div>
                     </div>
@@ -1144,12 +1144,12 @@
                     <div class="video-label" style="padding:0;">
                         <div class="row g-0">
                             <div class="col-6" style="padding:14px 18px;border-right:1px solid var(--border);">
-                                <div class="vid-num">Grid (probs+entropy) &mdash; ✅ → ✅</div>
-                                <div class="vid-desc">Grid selection with probability-entropy scoring correctly predicts success on Task 3.</div>
+                                <div class="vid-num">Probes Entropy</div>
+                                <div class="vid-desc">Action selection using probability-entropy scoring (10 candidates, temperature 1.5, no threshold).</div>
                             </div>
                             <div class="col-6" style="padding:14px 18px;">
-                                <div class="vid-num">Grid (BCE) &mdash; ✅ → ❌</div>
-                                <div class="vid-desc">The BCE-based grid variant predicts failure on this successful Task 3 rollout.</div>
+                                <div class="vid-num">RNN-TDQC (BCE)</div>
+                                <div class="vid-desc">The BCE-based RNN-TDQC (10 candidates, temperature 1.5, no threshold)</div>
                             </div>
                         </div>
                     </div>
@@ -1161,16 +1161,16 @@
                     <div class="video-label" style="padding:0;">
                         <div class="row g-0">
                             <div class="col-4" style="padding:14px 18px;border-right:1px solid var(--border);">
-                                <div class="vid-num">Baseline &mdash; ❌ → ❌</div>
-                                <div class="vid-desc">The baseline correctly predicts failure on Task 9.</div>
+                                <div class="vid-num">Baseline (OpenVLA policy)</div>
+                                <div class="vid-desc">The baseline choooses the actions with highest probabilities.</div>
                             </div>
                             <div class="col-4" style="padding:14px 18px;border-right:1px solid var(--border);">
-                                <div class="vid-num">Grid (n=10, T=1.5) &mdash; ❌ → ❌</div>
-                                <div class="vid-desc">Grid-based action selection correctly predicts failure on Task 9.</div>
+                                <div class="vid-num">RNN-TDQC (top-10)</div>
+                                <div class="vid-desc">RNN-TDQC-based action selection with threshold \(\bar{T}= 0.35 \) (10 candidates, temperature 1.5)</div>
                             </div>
                             <div class="col-4" style="padding:14px 18px;">
-                                <div class="vid-num">Grid (thresh=0.35) &mdash; ❌ → ❌</div>
-                                <div class="vid-desc">Grid selection with threshold 0.35 is more conservative and flags potential failure earlier.</div>
+                                <div class="vid-num">RNN-TDQC (top-10, thresh=0.35)</div>
+                                <div class="vid-desc">RNN-TDQC-based action selection with threshold \(\bar{T}= 0.35 \) (10 candidates, temperature 1.5)</div>
                             </div>
                         </div>
                     </div>
@@ -1180,12 +1180,12 @@
                     <div class="video-label" style="padding:0;">
                         <div class="row g-0">
                             <div class="col-6" style="padding:14px 18px;border-right:1px solid var(--border);">
-                                <div class="vid-num">Grid (probs+entropy) &mdash; ❌ → ✅</div>
-                                <div class="vid-desc">The entropy-based grid variant produces a <strong>dangerous false positive</strong>: predicts success on a clearly failing trajectory, illustrating the pitfall of entropy-only selection criteria.</div>
+                                <div class="vid-num">Probes Entropy</div>
+                                <div class="vid-desc">Action selection using probability-entropy scoring (10 candidates, temperature 1.5, no threshold).</div>
                             </div>
                             <div class="col-6" style="padding:14px 18px;">
-                                <div class="vid-num">Grid (BCE) &mdash; ❌ → ✅</div>
-                                <div class="vid-desc">The BCE-based grid variant also produces a false positive on this failing Task 9 rollout.</div>
+                                <div class="vid-num">RNN-TDQC (BCE)</div>
+                                <div class="vid-desc">The BCE-based RNN-TDQC (10 candidates, temperature 1.5, no threshold)</div>
                             </div>
                         </div>
                     </div>
@@ -1204,7 +1204,7 @@
 
         <!-- 6.1 -->
         <div class="method-block">
-            <span class="method-num">6.1</span>
+
             <h3>Problem Setting</h3>
             <p>
                 Let \(h_t\) denote the history of observations and actions up to time \(t\) in a trajectory of
@@ -1229,7 +1229,7 @@
 
         <!-- 6.2 -->
         <div class="method-block">
-            <span class="method-num">6.2</span>
+
             <h3>Sequential Brier Score &amp; the Value-Function Connection</h3>
             <p>
                 The standard per-step Brier score \(\mathbb{E}[(f_\theta(x) - y)^2]\) ignores temporal structure.
@@ -1254,7 +1254,7 @@
 
         <!-- 6.3 -->
         <div class="method-block">
-            <span class="method-num">6.3</span>
+
             <h3>TDQC Architecture</h3>
             <p>
                 We parameterize \(f_\theta\) as in the <strong>SAFE</strong> paper - a model that consumes
@@ -1265,8 +1265,8 @@
                 <li><strong>SAFE-MLP (white-box):</strong> A shallow MLP applied independently at each step, with cumulative losses.</li>
                 <li><strong>SAFE-MLP-BCE (white-box):</strong> A shallow MLP trained with binary cross-entropy loss.</li>
                 <li><strong>SAFE-MLP-TDQC (white-box):</strong> A shallow MLP trained with the TD-0 loss \(G(\theta)\).</li>
-                <li><strong>SAFE-RNN (white-box):</strong> An LSTM that processes the full history \(h_t\), enabling temporally coherent predictions.</li>
-                <li><strong>SAFE-RNN-TDQC (white-box):</strong> The same LSTM trained with the full TDQC loss - our best-performing white-box variant.</li>
+                <li><strong>SAFE-RNN (white-box):</strong> An RNN that processes the full history \(h_t\), enabling temporally coherent predictions.</li>
+                <li><strong>SAFE-RNN-TDQC (white-box):</strong> The same RNN trained with the full TDQC loss - our best-performing white-box variant.</li>
                 <li><strong>RNN-BCE (black-box):</strong> A sequential model on action probabilities trained with binary cross-entropy.</li>
                 <li><strong>RNN-TDQC (black-box):</strong> A sequential model on action probabilities trained with the TD-0 loss \(G(\theta)\).</li>
             </ul>
@@ -1274,7 +1274,7 @@
 
         <!-- 6.4 -->
         <div class="method-block">
-            <span class="method-num">6.4</span>
+
             <h3>Training Procedure</h3>
             <div class="algo-box">
                 <div class="algo-header">Algorithm 1 &mdash; TDQC Training</div>
