@@ -1117,16 +1117,16 @@
 
             <!-- Q-value Guided Videos -->
             <div class="vid-section">
-                <p class="vid-section-desc">Rollouts comparing different Q-value guided action search strategies (grid sampling vs. entropy-based baseline) on Task 3 (success) and Task 9 (failure).</p>
+                <p class="vid-section-desc">We measured the success rates of OpenVLA on three unseen tasks from the LIBERO-10 benchmark. We compared the standard, unmodified OpenVLA policy (<strong>Baseline</strong>) against several value-guided search configurations, using the action-selection procedure described in the paper. In Figure 3, we show the success rate relative to the increase in test-time compute. <em>RNN with TDQC or BCE</em> action selection methods use the output of the <em>f<sub>&theta;</sub></em> network for guidance <em>at all time steps</em> (that is, the threshold is <em><span style="text-decoration: overline;">T</span> = -&infin;</em>), and are trained using either TDQC or BCE loss. The <em>TDQC - Thresh</em> method saves compute by applying a confidence threshold, as described above. In this experiment, we used a threshold <em><span style="text-decoration: overline;">T</span> = 0.35</em>, which achieved a good tradeoff between success rate and compute. Appendix A gives a more detailed explanation and analysis. To increase variance in sampled actions, we generated <em>10</em> samples per time step in all value-guided methods using a sampling temperature of <em>1.5</em>. All experiments were performed on 3 unseen tasks, with <em>50</em> rollouts each.</p>
 
-                <div class="task-label">Task 3 &mdash; Put the black bowl in the bottom drawer of the cabinet and close it &mdash; Actual outcome: ✅ Success</div>
+                <div class="task-label">Task 3 &mdash; Put the black bowl in the bottom drawer of the cabinet and close it</div>
                 <div class="video-card" style="margin-bottom:18px;">
                     <div class="video-area"><video controls preload="metadata" style="width:100%;display:block;"><source src="figures/qval_task3_group1.mp4" type="video/mp4"></video></div>
                     <div class="video-label" style="padding:0;">
                         <div class="row g-0">
                             <div class="col-4" style="padding:14px 18px;border-right:1px solid var(--border);">
                                 <div class="vid-num">Baseline (OpenVLA policy)</div>
-                                <div class="vid-desc">The baseline choooses the actions with highest probabilities.</div>
+                                <div class="vid-desc">The baseline chooses the actions with highest probabilities.</div>
                             </div>
                             <div class="col-4" style="padding:14px 18px;border-right:1px solid var(--border);">
                                 <div class="vid-num">RNN-TDQC (top-10)</div>
@@ -1155,14 +1155,50 @@
                     </div>
                 </div>
 
-                <div class="task-label" style="margin-top:24px;">Task 9 &mdash; Put the yellow and white mug in the microwave and close it &mdash; Actual outcome: ❌ Failure</div>
+                <div class="task-label" style="margin-top:24px;">Task 4 &mdash; Put the white mug on the left plate and put the blue and white mug on the right plate</div>
+                <div class="video-card" style="margin-bottom:18px;">
+                    <div class="video-area"><video controls preload="metadata" style="width:100%;display:block;"><source src="figures/qval_task4_group1.mp4" type="video/mp4"></video></div>
+                    <div class="video-label" style="padding:0;">
+                        <div class="row g-0">
+                            <div class="col-4" style="padding:14px 18px;border-right:1px solid var(--border);">
+                                <div class="vid-num">Baseline (OpenVLA policy)</div>
+                                <div class="vid-desc">The baseline chooses the actions with highest probabilities.</div>
+                            </div>
+                            <div class="col-4" style="padding:14px 18px;border-right:1px solid var(--border);">
+                                <div class="vid-num">RNN-TDQC (top-10)</div>
+                                <div class="vid-desc">RNN-TDQC-based action selection (10 candidates, temperature 1.5, no threshold).</div>
+                            </div>
+                            <div class="col-4" style="padding:14px 18px;">
+                                <div class="vid-num">RNN-TDQC (top-10, thresh=0.35)</div>
+                                <div class="vid-desc">RNN-TDQC-based action selection with threshold \(\bar{T}= 0.35 \) (10 candidates, temperature 1.5).</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="video-card">
+                    <div class="video-area"><video controls preload="metadata" style="width:100%;display:block;"><source src="figures/qval_task4_group2.mp4" type="video/mp4"></video></div>
+                    <div class="video-label" style="padding:0;">
+                        <div class="row g-0">
+                            <div class="col-6" style="padding:14px 18px;border-right:1px solid var(--border);">
+                                <div class="vid-num">Probes Entropy</div>
+                                <div class="vid-desc">Action selection using probability-entropy scoring (10 candidates, temperature 1.5, no threshold).</div>
+                            </div>
+                            <div class="col-6" style="padding:14px 18px;">
+                                <div class="vid-num">RNN-TDQC (BCE)</div>
+                                <div class="vid-desc">The BCE-based RNN-TDQC (10 candidates, temperature 1.5, no threshold).</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="task-label" style="margin-top:24px;">Task 9 &mdash; Put the yellow and white mug in the microwave and close it</div>
                 <div class="video-card" style="margin-bottom:18px;">
                     <div class="video-area"><video controls preload="metadata" style="width:100%;display:block;"><source src="figures/qval_task9_group1.mp4" type="video/mp4"></video></div>
                     <div class="video-label" style="padding:0;">
                         <div class="row g-0">
                             <div class="col-4" style="padding:14px 18px;border-right:1px solid var(--border);">
                                 <div class="vid-num">Baseline (OpenVLA policy)</div>
-                                <div class="vid-desc">The baseline choooses the actions with highest probabilities.</div>
+                                <div class="vid-desc">The baseline chooses the actions with highest probabilities.</div>
                             </div>
                             <div class="col-4" style="padding:14px 18px;border-right:1px solid var(--border);">
                                 <div class="vid-num">RNN-TDQC (top-10)</div>
